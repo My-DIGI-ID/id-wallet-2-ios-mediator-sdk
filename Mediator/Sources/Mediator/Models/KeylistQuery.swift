@@ -14,6 +14,7 @@
 import Foundation
 
 // MARK: - KeylistQuery
+
 public struct KeylistQuery: Codable {
     public let id: String
     public let type: String
@@ -37,7 +38,7 @@ public struct KeylistQuery: Codable {
 // MARK: KeylistQuery convenience initializers and mutators
 
 public extension KeylistQuery {
-    init(data: Data) throws {        
+    init(data: Data) throws {
         self = try jsonDecoder().decode(KeylistQuery.self, from: data)
     }
 
@@ -71,6 +72,6 @@ public extension KeylistQuery {
     }
 
     func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-        return String(data: try self.jsonData(), encoding: encoding)
+        return String(data: try jsonData(), encoding: encoding)
     }
 }

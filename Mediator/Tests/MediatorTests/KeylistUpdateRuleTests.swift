@@ -2,7 +2,6 @@
 import XCTest
 
 final class KeylistUpdateRuleTests: XCTestCase {
-
     func test_decode() throws {
         let sut = try KeylistUpdateRule(TestData.json)
 
@@ -16,12 +15,12 @@ final class KeylistUpdateRuleTests: XCTestCase {
     }
 }
 
-fileprivate enum TestData {
+private enum TestData {
     static let json =
-"""
-{
-  "action" : "add",
-  "recipient_key" : "H3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV"
-}
-"""
+        """
+        {
+          "action" : "add",
+          "recipient_key" : "H3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV"
+        }
+        """
 }

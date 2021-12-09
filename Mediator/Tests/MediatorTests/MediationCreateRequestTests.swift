@@ -2,7 +2,6 @@
 import XCTest
 
 final class MediationCreateRequestTests: XCTestCase {
-
     func test_decode() throws {
         let sut = try MediationCreateRequest(TestData.json)
         XCTAssertFalse(sut.mediatorTerms.isEmpty)
@@ -17,16 +16,16 @@ final class MediationCreateRequestTests: XCTestCase {
     }
 }
 
-fileprivate enum TestData {
+private enum TestData {
     static let json =
-"""
-{
-  "mediator_terms" : [
-    "string"
-  ],
-  "recipient_terms" : [
-    "string"
-  ]
-}
-"""
+        """
+        {
+          "mediator_terms" : [
+            "string"
+          ],
+          "recipient_terms" : [
+            "string"
+          ]
+        }
+        """
 }

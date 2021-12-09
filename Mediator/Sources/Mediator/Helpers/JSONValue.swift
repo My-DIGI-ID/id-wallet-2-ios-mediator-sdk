@@ -49,17 +49,17 @@ public enum JSONValue: Codable, Equatable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
-        case .boolean(let value):
+        case let .boolean(value):
             try container.encode(value)
-        case .int(let value):
+        case let .int(value):
             try container.encode(value)
-        case .double(let value):
+        case let .double(value):
             try container.encode(value)
-        case .string(let value):
+        case let .string(value):
             try container.encode(value)
-        case .array(let values):
+        case let .array(values):
             try container.encode(values)
-        case .object(let valueDictionary):
+        case let .object(valueDictionary):
             try container.encode(valueDictionary)
         }
     }
@@ -97,6 +97,6 @@ extension JSONValue: ExpressibleByArrayLiteral {
 
 extension JSONValue: ExpressibleByDictionaryLiteral {
     public init(dictionaryLiteral elements: (String, JSONValue?)...) {
-        self = .object(Dictionary.init(uniqueKeysWithValues: elements))
+        self = .object(Dictionary(uniqueKeysWithValues: elements))
     }
 }

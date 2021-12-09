@@ -2,7 +2,6 @@
 import XCTest
 
 final class MediationListTests: XCTestCase {
-
     func test_decode() throws {
         let sut = try MediationList(TestData.json)
         XCTAssertTrue(sut.results.count == 1)
@@ -36,30 +35,30 @@ final class MediationListTests: XCTestCase {
     }
 }
 
-fileprivate enum TestData {
+private enum TestData {
     static let json =
-"""
-{
-  "results" : [
-    {
-      "connection_id" : "string",
-      "created_at" : "2021-11-17 15:54:50Z",
-      "endpoint" : "string",
-      "mediation_id" : "string",
-      "mediator_terms" : [
-        "string"
-      ],
-      "recipient_terms" : [
-        "string"
-      ],
-      "role" : "string",
-      "routing_keys" : [
-        "H3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV"
-      ],
-      "state" : "active",
-      "updated_at" : "2021-11-17 15:54:50Z"
-    }
-  ]
-}
-"""
+        """
+        {
+          "results" : [
+            {
+              "connection_id" : "string",
+              "created_at" : "2021-11-17 15:54:50Z",
+              "endpoint" : "string",
+              "mediation_id" : "string",
+              "mediator_terms" : [
+                "string"
+              ],
+              "recipient_terms" : [
+                "string"
+              ],
+              "role" : "string",
+              "routing_keys" : [
+                "H3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV"
+              ],
+              "state" : "active",
+              "updated_at" : "2021-11-17 15:54:50Z"
+            }
+          ]
+        }
+        """
 }

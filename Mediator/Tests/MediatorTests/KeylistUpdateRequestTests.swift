@@ -2,7 +2,6 @@
 import XCTest
 
 final class KeylistUpdateRequestTests: XCTestCase {
-
     func test_decode() throws {
         let sut = try KeylistUpdateRequest(TestData.json)
         XCTAssertFalse(sut.updates.isEmpty)
@@ -18,16 +17,16 @@ final class KeylistUpdateRequestTests: XCTestCase {
     }
 }
 
-fileprivate enum TestData {
+private enum TestData {
     static let json =
-"""
-{
-  "updates" : [
-    {
-      "action" : "add",
-      "recipient_key" : "H3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV"
-    }
-  ]
-}
-"""
+        """
+        {
+          "updates" : [
+            {
+              "action" : "add",
+              "recipient_key" : "H3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV"
+            }
+          ]
+        }
+        """
 }

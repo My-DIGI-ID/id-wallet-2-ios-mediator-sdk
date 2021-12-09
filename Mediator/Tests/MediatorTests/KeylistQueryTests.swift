@@ -2,7 +2,6 @@
 import XCTest
 
 final class KeylistQueryTests: XCTestCase {
-
     func test_decode() throws {
         let sut = try KeylistQuery(TestData.json)
         XCTAssertTrue(sut.id == "3fa85f64-5717-4562-b3fc-2c963f66afa6")
@@ -22,21 +21,21 @@ final class KeylistQueryTests: XCTestCase {
     }
 }
 
-fileprivate enum TestData {
+private enum TestData {
     static let json =
-"""
-{
-  "@id" : "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-  "@type" : "https://didcomm.org/my-family/1.0/my-message-type",
-  "filter" : {
-    "filter" : {
+        """
+        {
+          "@id" : "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+          "@type" : "https://didcomm.org/my-family/1.0/my-message-type",
+          "filter" : {
+            "filter" : {
 
-    }
-  },
-  "paginate" : {
-    "limit" : 30,
-    "offset" : 0
-  }
-}
-"""
+            }
+          },
+          "paginate" : {
+            "limit" : 30,
+            "offset" : 0
+          }
+        }
+        """
 }

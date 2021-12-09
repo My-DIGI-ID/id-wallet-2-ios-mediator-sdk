@@ -2,7 +2,6 @@
 import XCTest
 
 final class KeylistQueryFilterRequestTests: XCTestCase {
-
     func test_decode() throws {
         let sut = try KeylistQueryFilterRequest(TestData.json)
         XCTAssertTrue(sut.filter == [:])
@@ -15,13 +14,13 @@ final class KeylistQueryFilterRequestTests: XCTestCase {
     }
 }
 
-fileprivate enum TestData {
+private enum TestData {
     static let json =
-"""
-{
-  "filter" : {
+        """
+        {
+          "filter" : {
 
-  }
-}
-"""
+          }
+        }
+        """
 }
