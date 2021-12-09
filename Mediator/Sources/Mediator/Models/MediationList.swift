@@ -14,6 +14,7 @@
 import Foundation
 
 // MARK: - MediationList
+
 struct MediationList: Codable {
     let results: [MediationRecord]
 }
@@ -49,6 +50,6 @@ extension MediationList {
     }
 
     func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-        return String(data: try self.jsonData(), encoding: encoding)
+        return String(data: try jsonData(), encoding: encoding)
     }
 }

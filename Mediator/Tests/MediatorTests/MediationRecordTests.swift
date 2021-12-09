@@ -6,6 +6,17 @@ final class MediationRecordTests: XCTestCase {
     func test_decode() throws {
         let sut = try MediationRecord(TestData.json)
         XCTAssertTrue(sut.connectionId == "string")
+        XCTAssertTrue(sut.createdAt == "2021-11-17 15:54:50Z")
+        XCTAssertTrue(sut.endpoint == "string")
+        XCTAssertTrue(sut.mediationId == "string")
+        XCTAssertTrue(sut.state == "active")
+        XCTAssertTrue(sut.updatedAt == "2021-11-17 15:54:50Z")
+        XCTAssertTrue(sut.mediatorTerms.count == 1)
+        XCTAssertTrue(sut.recipientTerms.count == 1)
+        XCTAssertTrue(sut.mediatorTerms.first == "string")
+        XCTAssertTrue(sut.recipientTerms.first == "string")
+        XCTAssertTrue(sut.routingKeys.count == 1)
+        XCTAssertTrue(sut.routingKeys.first == "H3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV")
     }
 
     func test_encode() throws {

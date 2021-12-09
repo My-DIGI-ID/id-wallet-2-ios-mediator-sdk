@@ -6,6 +6,13 @@ final class MediationDenyTests: XCTestCase {
     func test_decode() throws {
         let sut = try MediationDeny(TestData.json)
         XCTAssertTrue(sut.id == "3fa85f64-5717-4562-b3fc-2c963f66afa6")
+        XCTAssertTrue(sut.type == "https://didcomm.org/my-family/1.0/my-message-type")
+        XCTAssertFalse(sut.mediatorTerms.isEmpty)
+        XCTAssertTrue(sut.mediatorTerms.count == 1)
+        XCTAssertFalse(sut.recipientTerms.isEmpty)
+        XCTAssertTrue(sut.recipientTerms.count == 1)
+        XCTAssertTrue(sut.mediatorTerms.first == "string")
+        XCTAssertTrue(sut.recipientTerms.first == "string")
     }
 
     func test_encode() throws {        

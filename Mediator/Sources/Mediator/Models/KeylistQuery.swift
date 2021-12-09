@@ -13,27 +13,32 @@
 
 import Foundation
 
-// MARK: - MediationGrant
-
-struct MediationGrant: Codable {
-    let id: String
-    let type: String
-    let endpoint: String
-    let routingKeys: [String]
+// MARK: - KeylistQuery
+public struct KeylistQuery: Codable {
+    public let id: String
+    public let type: String
+    public let filter: JSONValue
+    public let paginate: Paginate
 
     enum CodingKeys: String, CodingKey {
         case id = "@id"
         case type = "@type"
-        case endpoint
-        case routingKeys = "routing_keys"
+        case filter, paginate
+    }
+
+    public init(id: String, type: String, filter: JSONValue, paginate: Paginate) {
+        self.id = id
+        self.type = type
+        self.filter = filter
+        self.paginate = paginate
     }
 }
 
-// MARK: MediationGrant convenience initializers and mutators
+// MARK: KeylistQuery convenience initializers and mutators
 
-extension MediationGrant {
-    init(data: Data) throws {
-        self = try jsonDecoder().decode(MediationGrant.self, from: data)
+public extension KeylistQuery {
+    init(data: Data) throws {        
+        self = try jsonDecoder().decode(KeylistQuery.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -50,14 +55,14 @@ extension MediationGrant {
     func with(
         id: String? = nil,
         type: String? = nil,
-        endpoint: String? = nil,
-        routingKeys: [String]? = nil
-    ) -> MediationGrant {
-        return MediationGrant(
+        filter: JSONValue? = nil,
+        paginate: Paginate? = nil
+    ) -> KeylistQuery {
+        return KeylistQuery(
             id: id ?? self.id,
             type: type ?? self.type,
-            endpoint: endpoint ?? self.endpoint,
-            routingKeys: routingKeys ?? self.routingKeys
+            filter: filter ?? self.filter,
+            paginate: paginate ?? self.paginate
         )
     }
 
@@ -66,6 +71,6 @@ extension MediationGrant {
     }
 
     func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-        return String(data: try jsonData(), encoding: encoding)
+        return String(data: try self.jsonData(), encoding: encoding)
     }
 }

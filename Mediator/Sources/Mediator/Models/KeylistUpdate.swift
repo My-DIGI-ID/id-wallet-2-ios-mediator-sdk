@@ -14,6 +14,7 @@
 import Foundation
 
 // MARK: - KeylistUpdate
+
 struct KeylistUpdate: Codable {
     let id: String
     let type: String
@@ -61,6 +62,6 @@ extension KeylistUpdate {
     }
 
     func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-        return String(data: try self.jsonData(), encoding: encoding)
+        return String(data: try jsonData(), encoding: encoding)
     }
 }

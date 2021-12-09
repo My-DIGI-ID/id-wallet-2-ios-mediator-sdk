@@ -5,7 +5,16 @@ final class KeyListsTests: XCTestCase {
 
     func test_decode() throws {
         let sut = try KeyLists(TestData.json)
+        XCTAssertFalse(sut.results.isEmpty)
+        XCTAssertTrue(sut.results.count == 1)
         XCTAssertTrue(sut.results.first?.connectionId == "string")
+        XCTAssertTrue(sut.results.first?.createdAt == "2021-11-17 15:54:50Z")
+        XCTAssertTrue(sut.results.first?.recipientKey == "string")
+        XCTAssertTrue(sut.results.first?.recordId == "string")
+        XCTAssertTrue(sut.results.first?.role == "string")
+        XCTAssertTrue(sut.results.first?.state == "active")
+        XCTAssertTrue(sut.results.first?.updatedAt == "2021-11-17 15:54:50Z")
+        XCTAssertTrue(sut.results.first?.walletId == "string")
     }
 
     func test_encode() throws {

@@ -14,6 +14,7 @@
 import Foundation
 
 // MARK: - MediationDeny
+
 struct MediationDeny: Codable {
     let id: String
     let type: String
@@ -64,6 +65,6 @@ extension MediationDeny {
     }
 
     func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-        return String(data: try self.jsonData(), encoding: encoding)
+        return String(data: try jsonData(), encoding: encoding)
     }
 }

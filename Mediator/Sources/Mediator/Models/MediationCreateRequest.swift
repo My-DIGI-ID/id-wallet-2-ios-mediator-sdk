@@ -14,6 +14,7 @@
 import Foundation
 
 // MARK: - MediationCreateRequest
+
 struct MediationCreateRequest: Codable {
     let mediatorTerms, recipientTerms: [String]
 
@@ -56,6 +57,6 @@ extension MediationCreateRequest {
     }
 
     func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-        return String(data: try self.jsonData(), encoding: encoding)
+        return String(data: try jsonData(), encoding: encoding)
     }
 }

@@ -13,27 +13,19 @@
 
 import Foundation
 
-// MARK: - MediationGrant
+public struct KeylistQueryFilterRequest: Codable {
+    public let filter: JSONValue
 
-struct MediationGrant: Codable {
-    let id: String
-    let type: String
-    let endpoint: String
-    let routingKeys: [String]
-
-    enum CodingKeys: String, CodingKey {
-        case id = "@id"
-        case type = "@type"
-        case endpoint
-        case routingKeys = "routing_keys"
+    public init(filter: JSONValue) {
+        self.filter = filter
     }
 }
 
-// MARK: MediationGrant convenience initializers and mutators
+// MARK: KeylistQueryFilterRequest convenience initializers and mutators
 
-extension MediationGrant {
+public extension KeylistQueryFilterRequest {
     init(data: Data) throws {
-        self = try jsonDecoder().decode(MediationGrant.self, from: data)
+        self = try jsonDecoder().decode(KeylistQueryFilterRequest.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -48,16 +40,10 @@ extension MediationGrant {
     }
 
     func with(
-        id: String? = nil,
-        type: String? = nil,
-        endpoint: String? = nil,
-        routingKeys: [String]? = nil
-    ) -> MediationGrant {
-        return MediationGrant(
-            id: id ?? self.id,
-            type: type ?? self.type,
-            endpoint: endpoint ?? self.endpoint,
-            routingKeys: routingKeys ?? self.routingKeys
+        filter: JSONValue? = nil
+    ) -> KeylistQueryFilterRequest {
+        return KeylistQueryFilterRequest(
+            filter: filter ?? self.filter
         )
     }
 
@@ -66,6 +52,6 @@ extension MediationGrant {
     }
 
     func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-        return String(data: try jsonData(), encoding: encoding)
+        return String(data: try self.jsonData(), encoding: encoding)
     }
 }
