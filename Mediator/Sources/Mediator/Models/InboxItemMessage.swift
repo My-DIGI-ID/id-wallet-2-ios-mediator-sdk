@@ -13,27 +13,22 @@
 
 import Foundation
 
-// MARK: - Invitation
-public struct Invitation: Codable {
-    public let label: String
-    public let imageUrl: String
-    public let serviceEndpoint: String
-    public let routingKeys: [String]?
-    public let recipientKeys: [String]
-    public let id, type: String
+// MARK: - InboxItemMessage
+public struct InboxItemMessage: Codable {
+    public let data: String
+    public let timestamp: Int
 
-    enum CodingKeys: String, CodingKey {
-        case label, imageUrl, serviceEndpoint, routingKeys, recipientKeys
-        case id = "@id"
-        case type = "@type"
+    public init(data: String, timestamp: Int) {
+        self.data = data
+        self.timestamp = timestamp
     }
 }
 
-// MARK: Invitation convenience initializers and mutators
+// MARK: InboxItemMessage convenience initializers and mutators
 
-public extension Invitation {
+public extension InboxItemMessage {
     init(data: Data) throws {
-        self = try jsonDecoder().decode(Invitation.self, from: data)
+        self = try jsonDecoder().decode(InboxItemMessage.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -48,22 +43,12 @@ public extension Invitation {
     }
 
     func with(
-        label: String? = nil,
-        imageUrl: String? = nil,
-        serviceEndpoint: String? = nil,
-        routingKeys: [String]? = nil,
-        recipientKeys: [String]? = nil,
-        id: String? = nil,
-        type: String? = nil
-    ) -> Invitation {
-        return Invitation(
-            label: label ?? self.label,
-            imageUrl: imageUrl ?? self.imageUrl,
-            serviceEndpoint: serviceEndpoint ?? self.serviceEndpoint,
-            routingKeys: routingKeys ?? self.routingKeys,
-            recipientKeys: recipientKeys ?? self.recipientKeys,
-            id: id ?? self.id,
-            type: type ?? self.type
+        data: String? = nil,
+        timestamp: Int? = nil
+    ) -> InboxItemMessage {
+        return InboxItemMessage(
+            data: data ?? self.data,
+            timestamp: timestamp ?? self.timestamp
         )
     }
 

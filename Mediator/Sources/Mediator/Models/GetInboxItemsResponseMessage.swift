@@ -13,27 +13,20 @@
 
 import Foundation
 
-// MARK: - Invitation
-public struct Invitation: Codable {
-    public let label: String
-    public let imageUrl: String
-    public let serviceEndpoint: String
-    public let routingKeys: [String]?
-    public let recipientKeys: [String]
-    public let id, type: String
+// MARK: - GetInboxItemsResponseMessage
+public struct GetInboxItemsResponseMessage: Codable {
+    public let items: [InboxItemMessage]
 
-    enum CodingKeys: String, CodingKey {
-        case label, imageUrl, serviceEndpoint, routingKeys, recipientKeys
-        case id = "@id"
-        case type = "@type"
+    public init(items: [InboxItemMessage]) {
+        self.items = items
     }
 }
 
-// MARK: Invitation convenience initializers and mutators
+// MARK: GetInboxItemsResponseMessage convenience initializers and mutators
 
-public extension Invitation {
+public extension GetInboxItemsResponseMessage {
     init(data: Data) throws {
-        self = try jsonDecoder().decode(Invitation.self, from: data)
+        self = try jsonDecoder().decode(GetInboxItemsResponseMessage.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -48,22 +41,10 @@ public extension Invitation {
     }
 
     func with(
-        label: String? = nil,
-        imageUrl: String? = nil,
-        serviceEndpoint: String? = nil,
-        routingKeys: [String]? = nil,
-        recipientKeys: [String]? = nil,
-        id: String? = nil,
-        type: String? = nil
-    ) -> Invitation {
-        return Invitation(
-            label: label ?? self.label,
-            imageUrl: imageUrl ?? self.imageUrl,
-            serviceEndpoint: serviceEndpoint ?? self.serviceEndpoint,
-            routingKeys: routingKeys ?? self.routingKeys,
-            recipientKeys: recipientKeys ?? self.recipientKeys,
-            id: id ?? self.id,
-            type: type ?? self.type
+        items: [InboxItemMessage]? = nil
+    ) -> GetInboxItemsResponseMessage {
+        return GetInboxItemsResponseMessage(
+            items: items ?? self.items
         )
     }
 

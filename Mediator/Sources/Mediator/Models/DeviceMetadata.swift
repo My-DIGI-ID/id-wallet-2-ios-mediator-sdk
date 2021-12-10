@@ -13,27 +13,27 @@
 
 import Foundation
 
-// MARK: - Invitation
-public struct Invitation: Codable {
-    public let label: String
-    public let imageUrl: String
-    public let serviceEndpoint: String
-    public let routingKeys: [String]?
-    public let recipientKeys: [String]
-    public let id, type: String
+// MARK: - DeviceMetadata
+public struct DeviceMetadata: Codable {
+    public let push: String
+    public let createdAt: Int
 
     enum CodingKeys: String, CodingKey {
-        case label, imageUrl, serviceEndpoint, routingKeys, recipientKeys
-        case id = "@id"
-        case type = "@type"
+        case push = "Push"
+        case createdAt = "CreatedAt"
+    }
+
+    public init(push: String, createdAt: Int) {
+        self.push = push
+        self.createdAt = createdAt
     }
 }
 
-// MARK: Invitation convenience initializers and mutators
+// MARK: DeviceMetadata convenience initializers and mutators
 
-public extension Invitation {
+public extension DeviceMetadata {
     init(data: Data) throws {
-        self = try jsonDecoder().decode(Invitation.self, from: data)
+        self = try jsonDecoder().decode(DeviceMetadata.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -48,22 +48,12 @@ public extension Invitation {
     }
 
     func with(
-        label: String? = nil,
-        imageUrl: String? = nil,
-        serviceEndpoint: String? = nil,
-        routingKeys: [String]? = nil,
-        recipientKeys: [String]? = nil,
-        id: String? = nil,
-        type: String? = nil
-    ) -> Invitation {
-        return Invitation(
-            label: label ?? self.label,
-            imageUrl: imageUrl ?? self.imageUrl,
-            serviceEndpoint: serviceEndpoint ?? self.serviceEndpoint,
-            routingKeys: routingKeys ?? self.routingKeys,
-            recipientKeys: recipientKeys ?? self.recipientKeys,
-            id: id ?? self.id,
-            type: type ?? self.type
+        push: String? = nil,
+        createdAt: Int? = nil
+    ) -> DeviceMetadata {
+        return DeviceMetadata(
+            push: push ?? self.push,
+            createdAt: createdAt ?? self.createdAt
         )
     }
 

@@ -18,8 +18,8 @@ public struct Metadata: Codable {
     public let mobileSecret, deviceValidation: String
 
     enum CodingKeys: String, CodingKey {
-        case mobileSecret = "mobile-secret"
-        case deviceValidation = "device-validation"
+        case mobileSecret = "Mobile-Secret"
+        case deviceValidation = "Device-Validation"
     }
 
     public init(mobileSecret: String, deviceValidation: String) {

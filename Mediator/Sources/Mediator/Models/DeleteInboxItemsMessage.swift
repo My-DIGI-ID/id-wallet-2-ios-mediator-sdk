@@ -13,27 +13,30 @@
 
 import Foundation
 
-// MARK: - Invitation
-public struct Invitation: Codable {
-    public let label: String
-    public let imageUrl: String
-    public let serviceEndpoint: String
-    public let routingKeys: [String]?
-    public let recipientKeys: [String]
-    public let id, type: String
+// MARK: - DeleteInboxItemsMessage
+public struct DeleteInboxItemsMessage: Codable {
+    public let id: String
+    public let type: String
+    public let inboxItemIds: [String]
 
     enum CodingKeys: String, CodingKey {
-        case label, imageUrl, serviceEndpoint, routingKeys, recipientKeys
         case id = "@id"
         case type = "@type"
+        case inboxItemIds
+    }
+
+    public init(id: String, type: String, inboxItemIds: [String]) {
+        self.id = id
+        self.type = type
+        self.inboxItemIds = inboxItemIds
     }
 }
 
-// MARK: Invitation convenience initializers and mutators
+// MARK: DeleteInboxItemsMessage convenience initializers and mutators
 
-public extension Invitation {
+public extension DeleteInboxItemsMessage {
     init(data: Data) throws {
-        self = try jsonDecoder().decode(Invitation.self, from: data)
+        self = try jsonDecoder().decode(DeleteInboxItemsMessage.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -48,22 +51,14 @@ public extension Invitation {
     }
 
     func with(
-        label: String? = nil,
-        imageUrl: String? = nil,
-        serviceEndpoint: String? = nil,
-        routingKeys: [String]? = nil,
-        recipientKeys: [String]? = nil,
         id: String? = nil,
-        type: String? = nil
-    ) -> Invitation {
-        return Invitation(
-            label: label ?? self.label,
-            imageUrl: imageUrl ?? self.imageUrl,
-            serviceEndpoint: serviceEndpoint ?? self.serviceEndpoint,
-            routingKeys: routingKeys ?? self.routingKeys,
-            recipientKeys: recipientKeys ?? self.recipientKeys,
+        type: String? = nil,
+        inboxItemIds: [String]? = nil
+    ) -> DeleteInboxItemsMessage {
+        return DeleteInboxItemsMessage(
             id: id ?? self.id,
-            type: type ?? self.type
+            type: type ?? self.type,
+            inboxItemIds: inboxItemIds ?? self.inboxItemIds
         )
     }
 

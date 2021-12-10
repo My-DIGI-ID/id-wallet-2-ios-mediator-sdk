@@ -13,27 +13,33 @@
 
 import Foundation
 
-// MARK: - Invitation
-public struct Invitation: Codable {
-    public let label: String
-    public let imageUrl: String
-    public let serviceEndpoint: String
-    public let routingKeys: [String]?
-    public let recipientKeys: [String]
-    public let id, type: String
+// MARK: - AddDeviceInfoMessage
+public struct AddDeviceInfoMessage: Codable {
+    public let id: String
+    public let type: String
+    public let deviceId, deviceVendor: String
+    public let deviceMetadata: DeviceMetadata
 
     enum CodingKeys: String, CodingKey {
-        case label, imageUrl, serviceEndpoint, routingKeys, recipientKeys
         case id = "@id"
         case type = "@type"
+        case deviceId, deviceVendor, deviceMetadata
+    }
+
+    public init(id: String, type: String, deviceId: String, deviceVendor: String, deviceMetadata: DeviceMetadata) {
+        self.id = id
+        self.type = type
+        self.deviceId = deviceId
+        self.deviceVendor = deviceVendor
+        self.deviceMetadata = deviceMetadata
     }
 }
 
-// MARK: Invitation convenience initializers and mutators
+// MARK: AddDeviceInfoMessage convenience initializers and mutators
 
-public extension Invitation {
+public extension AddDeviceInfoMessage {
     init(data: Data) throws {
-        self = try jsonDecoder().decode(Invitation.self, from: data)
+        self = try jsonDecoder().decode(AddDeviceInfoMessage.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -48,22 +54,18 @@ public extension Invitation {
     }
 
     func with(
-        label: String? = nil,
-        imageUrl: String? = nil,
-        serviceEndpoint: String? = nil,
-        routingKeys: [String]? = nil,
-        recipientKeys: [String]? = nil,
         id: String? = nil,
-        type: String? = nil
-    ) -> Invitation {
-        return Invitation(
-            label: label ?? self.label,
-            imageUrl: imageUrl ?? self.imageUrl,
-            serviceEndpoint: serviceEndpoint ?? self.serviceEndpoint,
-            routingKeys: routingKeys ?? self.routingKeys,
-            recipientKeys: recipientKeys ?? self.recipientKeys,
+        type: String? = nil,
+        deviceId: String? = nil,
+        deviceVendor: String? = nil,
+        deviceMetadata: DeviceMetadata? = nil
+    ) -> AddDeviceInfoMessage {
+        return AddDeviceInfoMessage(
             id: id ?? self.id,
-            type: type ?? self.type
+            type: type ?? self.type,
+            deviceId: deviceId ?? self.deviceId,
+            deviceVendor: deviceVendor ?? self.deviceVendor,
+            deviceMetadata: deviceMetadata ?? self.deviceMetadata
         )
     }
 
