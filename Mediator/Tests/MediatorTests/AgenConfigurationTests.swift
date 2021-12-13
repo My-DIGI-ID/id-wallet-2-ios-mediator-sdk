@@ -8,7 +8,7 @@ final class AgentConfigurationTests: XCTestCase {
         XCTAssertTrue(sut.routingKey == "EYweTVBFRdwvXevGfzvj8xf9gNwQ6Cu9HgHBU2yTJAJb")
         XCTAssertTrue(sut.invitation.label == "SSI-MEDIATION-AGENT")
         XCTAssertTrue(sut.invitation.imageUrl == "https://self-ssi.com/images/ssi-logo.png")
-        XCTAssertTrue(sut.invitation.serviceEndpoint ==  "https://ssi-mediator-20.esatus.com")
+        XCTAssertTrue(sut.invitation.serviceEndpoint == "https://ssi-mediator-20.esatus.com")
         XCTAssertNil(sut.invitation.routingKeys)
         XCTAssertTrue(sut.invitation.recipientKeys.count == 1)
         XCTAssertTrue(sut.invitation.recipientKeys.first == "CBUBWRqhJ4ePyZpo64EJvHmn3w7uTHDzdE2ov85WtMps")

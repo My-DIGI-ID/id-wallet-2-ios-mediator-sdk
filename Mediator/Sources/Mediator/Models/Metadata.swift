@@ -14,6 +14,7 @@
 import Foundation
 
 // MARK: - Metadata
+
 public struct Metadata: Codable {
     public let mobileSecret, deviceValidation: String
 
@@ -47,6 +48,6 @@ public extension Metadata {
     }
 
     func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-        return String(data: try self.jsonData(), encoding: encoding)
+        return String(data: try jsonData(), encoding: encoding)
     }
 }

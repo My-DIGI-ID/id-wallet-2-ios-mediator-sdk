@@ -14,6 +14,7 @@
 import Foundation
 
 // MARK: - DeviceMetadata
+
 public struct DeviceMetadata: Codable {
     public let push: String
     public let createdAt: TimeInterval
@@ -48,6 +49,6 @@ public extension DeviceMetadata {
     }
 
     func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-        return String(data: try self.jsonData(), encoding: encoding)
+        return String(data: try jsonData(), encoding: encoding)
     }
 }

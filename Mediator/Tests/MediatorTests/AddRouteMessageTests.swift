@@ -2,7 +2,6 @@
 import XCTest
 
 final class AddRouteMessageTests: XCTestCase {
-    
     func test_decode() throws {
         let sut = try AddRouteMessage(TestData.json)
         XCTAssertTrue(sut.id == "3fa85f64-5717-4562-b3fc-2c963f66afa6")

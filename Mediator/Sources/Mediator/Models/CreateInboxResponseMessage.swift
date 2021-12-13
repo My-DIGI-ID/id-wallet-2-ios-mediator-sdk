@@ -14,6 +14,7 @@
 import Foundation
 
 // MARK: - CreateInboxResponseMessage
+
 public struct CreateInboxResponseMessage: Codable {
     public let inboxId: String
     public let inboxKey: String
@@ -43,6 +44,6 @@ public extension CreateInboxResponseMessage {
     }
 
     func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-        return String(data: try self.jsonData(), encoding: encoding)
+        return String(data: try jsonData(), encoding: encoding)
     }
 }

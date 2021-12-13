@@ -2,27 +2,46 @@
 import XCTest
 
 final class RouteRecordTests: XCTestCase {
+
     func test_decode() throws {
+        let expectedDate = Calendar(identifier: .iso8601)
+            .date(from: DateComponents(timeZone: TimeZone(abbreviation: "GMT"),
+                                       year: 2021,
+                                       month: 11,
+                                       day: 17,
+                                       hour: 15,
+                                       minute: 54,
+                                       second: 50))
         let sut = try RouteRecord(TestData.json)
+
         XCTAssertTrue(sut.connectionId == "string")
-        XCTAssertTrue(sut.createdAt == "2021-11-17 15:54:50Z")
+        XCTAssertTrue(sut.createdAt == expectedDate)
         XCTAssertTrue(sut.recipientKey == "string")
         XCTAssertTrue(sut.recordId == "string")
         XCTAssertTrue(sut.role == "string")
         XCTAssertTrue(sut.state == "active")
-        XCTAssertTrue(sut.updatedAt == "2021-11-17 15:54:50Z")
+        XCTAssertTrue(sut.updatedAt == expectedDate)
         XCTAssertTrue(sut.walletId == "string")
     }
 
     func test_encode() throws {
-        let sut = try RouteRecord(connectionId: "string",
-                                  createdAt: "2021-11-17 15:54:50Z",
-                                  recipientKey: "string",
+        let expectedDate = Calendar(identifier: .iso8601)
+            .date(from: DateComponents(timeZone: TimeZone(abbreviation: "GMT"),
+                                       year: 2021,
+                                       month: 11,
+                                       day: 17,
+                                       hour: 15,
+                                       minute: 54,
+                                       second: 50))
+        let sut = try RouteRecord(recipientKey: "string",
+                                  connectionId: "string",
                                   recordId: "string",
                                   role: "string",
                                   state: "active",
-                                  updatedAt: "2021-11-17 15:54:50Z",
-                                  walletId: "string").jsonString()
+                                  walletId: "string",
+                                  createdAt: expectedDate,
+                                  updatedAt: expectedDate).jsonString()
+
         XCTAssertTrue(sut == TestData.json)
     }
 }

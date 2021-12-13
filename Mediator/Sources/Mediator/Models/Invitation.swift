@@ -14,6 +14,7 @@
 import Foundation
 
 // MARK: - Invitation
+
 public struct Invitation: Codable {
     public let label: String
     public let imageUrl: String
@@ -48,6 +49,6 @@ public extension Invitation {
     }
 
     func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-        return String(data: try self.jsonData(), encoding: encoding)
+        return String(data: try jsonData(), encoding: encoding)
     }
 }

@@ -14,6 +14,7 @@
 import Foundation
 
 // MARK: - DeleteInboxItemsMessage
+
 public struct DeleteInboxItemsMessage: Codable {
     public let id: String
     public let type: String
@@ -51,6 +52,6 @@ public extension DeleteInboxItemsMessage {
     }
 
     func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-        return String(data: try self.jsonData(), encoding: encoding)
+        return String(data: try jsonData(), encoding: encoding)
     }
 }

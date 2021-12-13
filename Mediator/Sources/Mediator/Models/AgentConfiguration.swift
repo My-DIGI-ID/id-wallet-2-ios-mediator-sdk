@@ -14,6 +14,7 @@
 import Foundation
 
 // MARK: - AgentConfiguration
+
 public struct AgentConfiguration: Codable {
     public let serviceEndpoint: String
     public let routingKey: String
@@ -51,6 +52,6 @@ public extension AgentConfiguration {
     }
 
     func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-        return String(data: try self.jsonData(), encoding: encoding)
+        return String(data: try jsonData(), encoding: encoding)
     }
 }

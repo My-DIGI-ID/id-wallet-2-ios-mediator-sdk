@@ -14,6 +14,7 @@
 import Foundation
 
 // MARK: - AddDeviceInfoMessage
+
 public struct AddDeviceInfoMessage: Codable {
     public let id: String
     public let type: String
@@ -54,6 +55,6 @@ public extension AddDeviceInfoMessage {
     }
 
     func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-        return String(data: try self.jsonData(), encoding: encoding)
+        return String(data: try jsonData(), encoding: encoding)
     }
 }

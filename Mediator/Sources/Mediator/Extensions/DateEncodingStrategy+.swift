@@ -14,10 +14,8 @@
 import Foundation
 
 extension JSONEncoder.DateEncodingStrategy {
-
     static let spaceAndInternetFormatted: Self = .custom { date, encoder in
         var container = encoder.singleValueContainer()
         try container.encode(ISO8601DateFormatter.spaceAndInternetFormatted.string(from: date))
     }
-
 }

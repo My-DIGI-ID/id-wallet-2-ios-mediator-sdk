@@ -13,7 +13,6 @@
 import Foundation
 
 extension ISO8601DateFormatter {
-
     // Format 2021-11-17 15:54:50Z
     static let spaceAndInternetFormatted: ISO8601DateFormatter = {
         let formatter = ISO8601DateFormatter()
@@ -21,4 +20,3 @@ extension ISO8601DateFormatter {
         return formatter
     }()
 }
-

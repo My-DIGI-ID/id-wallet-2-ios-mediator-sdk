@@ -14,12 +14,13 @@
 import Foundation
 
 public struct MediationRecord: Codable {
-    public let connectionId, endpoint, mediationId: String
-    public let mediatorTerms, recipientTerms: [String]
+    public let connectionId: String
     public let role: String
-    public let routingKeys: [String]
-    public let state: String
-    public let createdAt, updatedAt: Date
+    public let endpoint, mediationId: String?
+    public let mediatorTerms, recipientTerms: [String]?
+    public let routingKeys: [String]?
+    public let state: String?
+    public let createdAt, updatedAt: Date?
 
     enum CodingKeys: String, CodingKey {
         case connectionId = "connection_id"
@@ -33,26 +34,14 @@ public struct MediationRecord: Codable {
         case state
         case updatedAt = "updated_at"
     }
-
-    public init(connectionId: String, createdAt: Date, endpoint: String, mediationId: String, mediatorTerms: [String], recipientTerms: [String], role: String, routingKeys: [String], state: String, updatedAt: Date) {
-        self.connectionId = connectionId
-        self.createdAt = createdAt
-        self.endpoint = endpoint
-        self.mediationId = mediationId
-        self.mediatorTerms = mediatorTerms
-        self.recipientTerms = recipientTerms
-        self.role = role
-        self.routingKeys = routingKeys
-        self.state = state
-        self.updatedAt = updatedAt
-    }
 }
 
 // MARK: MediationRecord convenience initializers and mutators
 
 public extension MediationRecord {
     init(data: Data) throws {
-        self = try jsonDecoder(dateDecodingStrategy: .spaceAndInternetFormatted).decode(MediationRecord.self, from: data)
+        self = try jsonDecoder(dateDecodingStrategy: .spaceAndInternetFormatted)
+            .decode(MediationRecord.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {

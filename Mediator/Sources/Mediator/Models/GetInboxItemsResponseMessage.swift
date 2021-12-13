@@ -14,6 +14,7 @@
 import Foundation
 
 // MARK: - GetInboxItemsResponseMessage
+
 public struct GetInboxItemsResponseMessage: Codable {
     public let items: [InboxItemMessage]
 
@@ -41,6 +42,6 @@ public extension GetInboxItemsResponseMessage {
     }
 
     func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-        return String(data: try self.jsonData(), encoding: encoding)
+        return String(data: try jsonData(), encoding: encoding)
     }
 }

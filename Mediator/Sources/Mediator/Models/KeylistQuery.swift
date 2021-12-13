@@ -16,22 +16,15 @@ import Foundation
 // MARK: - KeylistQuery
 
 public struct KeylistQuery: Codable {
-    public let id: String
-    public let type: String
-    public let filter: JSONValue
-    public let paginate: Paginate
+    public let id: String?
+    public let type: String?
+    public let filter: JSONValue?
+    public let paginate: Paginate?
 
     enum CodingKeys: String, CodingKey {
         case id = "@id"
         case type = "@type"
         case filter, paginate
-    }
-
-    public init(id: String, type: String, filter: JSONValue, paginate: Paginate) {
-        self.id = id
-        self.type = type
-        self.filter = filter
-        self.paginate = paginate
     }
 }
 

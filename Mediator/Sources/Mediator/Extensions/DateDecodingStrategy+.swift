@@ -14,7 +14,6 @@
 import Foundation
 
 extension JSONDecoder.DateDecodingStrategy {
-
     static let spaceAndInternetFormatted: Self = .custom { decoder in
         let container = try decoder.singleValueContainer()
         let dateString = try container.decode(String.self)
@@ -23,5 +22,4 @@ extension JSONDecoder.DateDecodingStrategy {
         }
         return date
     }
-
 }

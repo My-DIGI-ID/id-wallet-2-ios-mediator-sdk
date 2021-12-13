@@ -14,6 +14,7 @@
 import Foundation
 
 // MARK: - InboxItemMessage
+
 public struct InboxItemMessage: Codable {
     public let data: String
     public let timestamp: TimeInterval
@@ -43,6 +44,6 @@ public extension InboxItemMessage {
     }
 
     func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
-        return String(data: try self.jsonData(), encoding: encoding)
+        return String(data: try jsonData(), encoding: encoding)
     }
 }

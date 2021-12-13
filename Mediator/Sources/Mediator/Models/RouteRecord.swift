@@ -14,8 +14,10 @@
 import Foundation
 
 public struct RouteRecord: Codable {
-    let connectionId, createdAt, recipientKey, recordId: String
-    let role, state, updatedAt, walletId: String
+    let recipientKey: String
+    let connectionId, recordId: String?
+    let role, state, walletId: String?
+    let createdAt, updatedAt: Date?
 
     enum CodingKeys: String, CodingKey {
         case connectionId = "connection_id"
@@ -30,7 +32,7 @@ public struct RouteRecord: Codable {
 
 public extension RouteRecord {
     init(data: Data) throws {
-        self = try jsonDecoder().decode(RouteRecord.self, from: data)
+        self = try jsonDecoder(dateDecodingStrategy: .spaceAndInternetFormatted).decode(RouteRecord.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -41,7 +43,7 @@ public extension RouteRecord {
     }
 
     func jsonData() throws -> Data {
-        return try jsonEncoder().encode(self)
+        return try jsonEncoder(dateEncodingStrategy: .spaceAndInternetFormatted).encode(self)
     }
 
     func jsonString(encoding: String.Encoding = .utf8) throws -> String? {

@@ -13,17 +13,24 @@
 
 import Foundation
 
+// MARK: - KeylistUpdateRuleAction
+
+public enum KeylistUpdateRuleAction: String, Codable {
+    case add, remove
+}
+
 // MARK: - KeylistUpdateRule
 
 public struct KeylistUpdateRule: Codable {
-    public let action, recipientKey: String
+    public let action: KeylistUpdateRuleAction
+    public let recipientKey: String
 
     enum CodingKeys: String, CodingKey {
         case action
         case recipientKey = "recipient_key"
     }
 
-    public init(action: String, recipientKey: String) {
+    public init(action: KeylistUpdateRuleAction, recipientKey: String) {
         self.action = action
         self.recipientKey = recipientKey
     }

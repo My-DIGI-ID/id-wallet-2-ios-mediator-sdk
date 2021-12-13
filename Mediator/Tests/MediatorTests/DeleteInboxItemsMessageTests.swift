@@ -2,6 +2,7 @@
 import XCTest
 
 final class DeleteInboxItemsMessageTests: XCTestCase {
+
     func test_decode() throws {
         let sut = try DeleteInboxItemsMessage(TestData.json)
         XCTAssertTrue(sut.id == "3fa85f64-5717-4562-b3fc-2c963f66afa6")
@@ -13,7 +14,9 @@ final class DeleteInboxItemsMessageTests: XCTestCase {
     }
 
     func test_encode() throws {
-        let sut = try DeleteInboxItemsMessage(id: "3fa85f64-5717-4562-b3fc-2c963f66afa6", type: "https://didcomm.org/basic-routing/1.0/delete-inbox-items", inboxItemIds: ["1", "2", "3"]).jsonString()
+        let sut = try DeleteInboxItemsMessage(id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                                              type: "https://didcomm.org/basic-routing/1.0/delete-inbox-items",
+                                              inboxItemIds: ["1", "2", "3"]).jsonString()
         print(sut!)
         XCTAssertTrue(sut == TestData.json)
     }

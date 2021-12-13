@@ -2,35 +2,51 @@
 import XCTest
 
 final class MediationRecordTests: XCTestCase {
+
     func test_decode() throws {
-        let expectedDate = Calendar(identifier: .iso8601).date(from: DateComponents(timeZone: TimeZone(abbreviation: "GMT"), year: 2021, month: 11, day: 17, hour: 15, minute: 54, second: 50))
+        let expectedDate = Calendar(identifier: .iso8601)
+            .date(from: DateComponents(timeZone: TimeZone(abbreviation: "GMT"),
+                                       year: 2021,
+                                       month: 11,
+                                       day: 17,
+                                       hour: 15,
+                                       minute: 54,
+                                       second: 50))
         let sut = try MediationRecord(TestData.json)
+
         XCTAssertTrue(sut.connectionId == "string")
         XCTAssertTrue(sut.createdAt == expectedDate)
         XCTAssertTrue(sut.endpoint == "string")
         XCTAssertTrue(sut.mediationId == "string")
         XCTAssertTrue(sut.state == "active")
         XCTAssertTrue(sut.updatedAt == expectedDate)
-        XCTAssertTrue(sut.mediatorTerms.count == 1)
-        XCTAssertTrue(sut.recipientTerms.count == 1)
-        XCTAssertTrue(sut.mediatorTerms.first == "string")
-        XCTAssertTrue(sut.recipientTerms.first == "string")
-        XCTAssertTrue(sut.routingKeys.count == 1)
-        XCTAssertTrue(sut.routingKeys.first == "H3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV")
+        XCTAssertTrue(sut.mediatorTerms?.count == 1)
+        XCTAssertTrue(sut.recipientTerms?.count == 1)
+        XCTAssertTrue(sut.mediatorTerms?.first == "string")
+        XCTAssertTrue(sut.recipientTerms?.first == "string")
+        XCTAssertTrue(sut.routingKeys?.count == 1)
+        XCTAssertTrue(sut.routingKeys?.first == "H3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV")
     }
 
     func test_encode() throws {
-        let expectedDate = Calendar(identifier: .iso8601).date(from: DateComponents(timeZone: TimeZone(abbreviation: "GMT"), year: 2021, month: 11, day: 17, hour: 15, minute: 54, second: 50))!
+        let expectedDate = Calendar(identifier: .iso8601)
+            .date(from: DateComponents(timeZone: TimeZone(abbreviation: "GMT"),
+                                       year: 2021,
+                                       month: 11,
+                                       day: 17,
+                                       hour: 15,
+                                       minute: 54,
+                                       second: 50))
         let sut = try MediationRecord(connectionId: "string",
-                                      createdAt: expectedDate,
+                                      role: "string",
                                       endpoint: "string",
                                       mediationId: "string",
                                       mediatorTerms: ["string"],
                                       recipientTerms: ["string"],
-                                      role: "string",
                                       routingKeys: ["H3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV"],
                                       state: "active",
-                                      updatedAt: expectedDate).jsonString()        
+                                      createdAt: expectedDate,
+                                      updatedAt: expectedDate).jsonString()
         XCTAssertTrue(sut == TestData.json)
     }
 }
