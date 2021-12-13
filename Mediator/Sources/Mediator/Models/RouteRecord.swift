@@ -40,32 +40,6 @@ public extension RouteRecord {
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    func with(
-        connectionId: String? = nil,
-        createdAt: String? = nil,
-        recipientKey: String? = nil,
-        recordId: String? = nil,
-        role: String? = nil,
-        state: String? = nil,
-        updatedAt: String? = nil,
-        walletId: String? = nil
-    ) -> RouteRecord {
-        return RouteRecord(
-            connectionId: connectionId ?? self.connectionId,
-            createdAt: createdAt ?? self.createdAt,
-            recipientKey: recipientKey ?? self.recipientKey,
-            recordId: recordId ?? self.recordId,
-            role: role ?? self.role,
-            state: state ?? self.state,
-            updatedAt: updatedAt ?? self.updatedAt,
-            walletId: walletId ?? self.walletId
-        )
-    }
-
     func jsonData() throws -> Data {
         return try jsonEncoder().encode(self)
     }

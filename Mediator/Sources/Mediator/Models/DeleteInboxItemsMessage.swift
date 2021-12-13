@@ -46,22 +46,6 @@ public extension DeleteInboxItemsMessage {
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    func with(
-        id: String? = nil,
-        type: String? = nil,
-        inboxItemIds: [String]? = nil
-    ) -> DeleteInboxItemsMessage {
-        return DeleteInboxItemsMessage(
-            id: id ?? self.id,
-            type: type ?? self.type,
-            inboxItemIds: inboxItemIds ?? self.inboxItemIds
-        )
-    }
-
     func jsonData() throws -> Data {
         return try jsonEncoder().encode(self)
     }

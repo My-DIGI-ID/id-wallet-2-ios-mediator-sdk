@@ -36,18 +36,6 @@ public extension GetInboxItemsResponseMessage {
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    func with(
-        items: [InboxItemMessage]? = nil
-    ) -> GetInboxItemsResponseMessage {
-        return GetInboxItemsResponseMessage(
-            items: items ?? self.items
-        )
-    }
-
     func jsonData() throws -> Data {
         return try jsonEncoder().encode(self)
     }

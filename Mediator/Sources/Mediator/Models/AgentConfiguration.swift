@@ -46,22 +46,6 @@ public extension AgentConfiguration {
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    func with(
-        serviceEndpoint: String? = nil,
-        routingKey: String? = nil,
-        invitation: Invitation? = nil
-    ) -> AgentConfiguration {
-        return AgentConfiguration(
-            serviceEndpoint: serviceEndpoint ?? self.serviceEndpoint,
-            routingKey: routingKey ?? self.routingKey,
-            invitation: invitation ?? self.invitation
-        )
-    }
-
     func jsonData() throws -> Data {
         return try jsonEncoder().encode(self)
     }

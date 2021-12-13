@@ -41,22 +41,6 @@ extension KeylistUpdate {
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    func with(
-        id: String? = nil,
-        type: String? = nil,
-        updates: [KeylistUpdateRule]? = nil
-    ) -> KeylistUpdate {
-        return KeylistUpdate(
-            id: id ?? self.id,
-            type: type ?? self.type,
-            updates: updates ?? self.updates
-        )
-    }
-
     func jsonData() throws -> Data {
         return try jsonEncoder().encode(self)
     }

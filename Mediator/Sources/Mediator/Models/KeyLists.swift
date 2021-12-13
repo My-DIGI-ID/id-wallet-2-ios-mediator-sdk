@@ -37,16 +37,6 @@ public extension KeyLists {
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    func with(results: [RouteRecord]? = nil) -> KeyLists {
-        return KeyLists(
-            results: results ?? self.results
-        )
-    }
-
     func jsonData() throws -> Data {
         return try jsonEncoder().encode(self)
     }

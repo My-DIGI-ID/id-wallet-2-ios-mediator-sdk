@@ -16,14 +16,14 @@ import Foundation
 // MARK: - DeviceMetadata
 public struct DeviceMetadata: Codable {
     public let push: String
-    public let createdAt: Int
+    public let createdAt: TimeInterval
 
     enum CodingKeys: String, CodingKey {
         case push = "Push"
         case createdAt = "CreatedAt"
     }
 
-    public init(push: String, createdAt: Int) {
+    public init(push: String, createdAt: TimeInterval) {
         self.push = push
         self.createdAt = createdAt
     }
@@ -43,22 +43,8 @@ public extension DeviceMetadata {
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    func with(
-        push: String? = nil,
-        createdAt: Int? = nil
-    ) -> DeviceMetadata {
-        return DeviceMetadata(
-            push: push ?? self.push,
-            createdAt: createdAt ?? self.createdAt
-        )
-    }
-
     func jsonData() throws -> Data {
-        return try jsonEncoder().encode(self)
+        return try jsonEncoder(dateEncodingStrategy: .secondsSince1970).encode(self)
     }
 
     func jsonString(encoding: String.Encoding = .utf8) throws -> String? {

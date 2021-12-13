@@ -16,9 +16,9 @@ import Foundation
 // MARK: - InboxItemMessage
 public struct InboxItemMessage: Codable {
     public let data: String
-    public let timestamp: Int
+    public let timestamp: TimeInterval
 
-    public init(data: String, timestamp: Int) {
+    public init(data: String, timestamp: TimeInterval) {
         self.data = data
         self.timestamp = timestamp
     }
@@ -38,22 +38,8 @@ public extension InboxItemMessage {
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    func with(
-        data: String? = nil,
-        timestamp: Int? = nil
-    ) -> InboxItemMessage {
-        return InboxItemMessage(
-            data: data ?? self.data,
-            timestamp: timestamp ?? self.timestamp
-        )
-    }
-
     func jsonData() throws -> Data {
-        return try jsonEncoder().encode(self)
+        return try jsonEncoder(dateEncodingStrategy: .secondsSince1970).encode(self)
     }
 
     func jsonString(encoding: String.Encoding = .utf8) throws -> String? {

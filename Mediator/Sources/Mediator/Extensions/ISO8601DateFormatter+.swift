@@ -10,20 +10,15 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
 import Foundation
 
-// MARK: - Helper functions for creating encoders and decoders
+extension ISO8601DateFormatter {
 
-func jsonDecoder(dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .iso8601) -> JSONDecoder {
-    let decoder = JSONDecoder()
-    decoder.dateDecodingStrategy = dateDecodingStrategy
-    return decoder
+    // Format 2021-11-17 15:54:50Z
+    static let spaceAndInternetFormatted: ISO8601DateFormatter = {
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withSpaceBetweenDateAndTime, .withInternetDateTime]
+        return formatter
+    }()
 }
 
-func jsonEncoder(dateEncodingStrategy: JSONEncoder.DateEncodingStrategy = .iso8601) -> JSONEncoder {
-    let encoder = JSONEncoder()
-    encoder.dateEncodingStrategy = dateEncodingStrategy
-    encoder.outputFormatting = [.sortedKeys, .withoutEscapingSlashes, .prettyPrinted]
-    return encoder
-}

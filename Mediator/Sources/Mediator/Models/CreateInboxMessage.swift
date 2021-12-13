@@ -46,22 +46,6 @@ public extension CreateInboxMessage {
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    func with(
-        id: String? = nil,
-        type: String? = nil,
-        metadata: Metadata? = nil
-    ) -> CreateInboxMessage {
-        return CreateInboxMessage(
-            id: id ?? self.id,
-            type: type ?? self.type,
-            metadata: metadata ?? self.metadata
-        )
-    }
-
     func jsonData() throws -> Data {
         return try jsonEncoder().encode(self)
     }

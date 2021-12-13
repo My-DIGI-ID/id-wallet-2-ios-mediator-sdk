@@ -13,17 +13,15 @@
 
 import Foundation
 
-// MARK: - Helper functions for creating encoders and decoders
+extension JSONDecoder.DateDecodingStrategy {
 
-func jsonDecoder(dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .iso8601) -> JSONDecoder {
-    let decoder = JSONDecoder()
-    decoder.dateDecodingStrategy = dateDecodingStrategy
-    return decoder
-}
+    static let spaceAndInternetFormatted: Self = .custom { decoder in
+        let container = try decoder.singleValueContainer()
+        let dateString = try container.decode(String.self)
+        guard let date = ISO8601DateFormatter.spaceAndInternetFormatted.date(from: dateString) else {
+            throw DecodingError.dataCorruptedError(in: container, debugDescription: "Could not decode: \(dateString)")
+        }
+        return date
+    }
 
-func jsonEncoder(dateEncodingStrategy: JSONEncoder.DateEncodingStrategy = .iso8601) -> JSONEncoder {
-    let encoder = JSONEncoder()
-    encoder.dateEncodingStrategy = dateEncodingStrategy
-    encoder.outputFormatting = [.sortedKeys, .withoutEscapingSlashes, .prettyPrinted]
-    return encoder
 }

@@ -42,20 +42,6 @@ public extension Metadata {
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    func with(
-        mobileSecret: String? = nil,
-        deviceValidation: String? = nil
-    ) -> Metadata {
-        return Metadata(
-            mobileSecret: mobileSecret ?? self.mobileSecret,
-            deviceValidation: deviceValidation ?? self.deviceValidation
-        )
-    }
-
     func jsonData() throws -> Data {
         return try jsonEncoder().encode(self)
     }

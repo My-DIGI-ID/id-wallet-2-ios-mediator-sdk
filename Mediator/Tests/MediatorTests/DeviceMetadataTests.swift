@@ -4,14 +4,13 @@ import XCTest
 final class DeviceMetadataTests: XCTestCase {
 
     func test_decode() throws {
-        let sut = try DeviceMetadata(TestData.json)
+        let sut = try XCTUnwrap(DeviceMetadata(TestData.json), "Unable to get DeviceMetadata")
         XCTAssertTrue(sut.push == "NotificationHubIDW")
-        XCTAssertTrue(sut.createdAt == 1639162094)
+        XCTAssertTrue(sut.createdAt == 1639395437)
     }
 
     func test_encode() throws {
-        let sut = try DeviceMetadata(push: "NotificationHubIDW", createdAt: 1639162094).jsonString()
-        print(sut!)
+        let sut = try DeviceMetadata(push: "NotificationHubIDW", createdAt: 1639395437).jsonString()
         XCTAssertTrue(sut == TestData.json)
     }
 }
@@ -19,7 +18,7 @@ final class DeviceMetadataTests: XCTestCase {
 private enum TestData {
     static let json: String = """
     {
-      "CreatedAt" : 1639162094,
+      "CreatedAt" : 1639395437,
       "Push" : "NotificationHubIDW"
     }
     """

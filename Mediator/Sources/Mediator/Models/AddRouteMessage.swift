@@ -46,22 +46,6 @@ public extension AddRouteMessage {
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    func with(
-        id: String? = nil,
-        type: String? = nil,
-        routeDestination: String? = nil
-    ) -> AddRouteMessage {
-        return AddRouteMessage(
-            id: id ?? self.id,
-            type: type ?? self.type,
-            routeDestination: routeDestination ?? self.routeDestination
-        )
-    }
-
     func jsonData() throws -> Data {
         return try jsonEncoder().encode(self)
     }
