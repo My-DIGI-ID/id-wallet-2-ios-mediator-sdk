@@ -15,10 +15,14 @@ import Foundation
 
 // MARK: - Helper functions for creating encoders and decoders
 
-func jsonDecoder() -> JSONDecoder {
-    let decoder = JSONDecoder()
-    decoder.dateDecodingStrategy = .iso8601
-    return decoder
+extension JSONDecoder {
+	
+	static let sharedISO: JSONDecoder = {
+		let decoder = JSONDecoder()
+		decoder.dateDecodingStrategy = .iso8601
+		return decoder
+	}()
+	
 }
 
 func jsonEncoder() -> JSONEncoder {
