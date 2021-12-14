@@ -13,21 +13,13 @@
 
 import Foundation
 
-// MARK: - Helper functions for creating encoders and decoders
+extension JSONEncoder {
 
-extension JSONDecoder {
-	
-	static let sharedISO: JSONDecoder = {
-		let decoder = JSONDecoder()
-		decoder.dateDecodingStrategy = .iso8601
-		return decoder
-	}()
-	
-}
+    static func encoder(dateEncodingStrategy: JSONEncoder.DateEncodingStrategy = .iso8601) -> JSONEncoder {
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = dateEncodingStrategy
+        encoder.outputFormatting = [.sortedKeys, .withoutEscapingSlashes, .prettyPrinted]
+        return encoder
+    }
 
-func jsonEncoder() -> JSONEncoder {
-    let encoder = JSONEncoder()
-    encoder.dateEncodingStrategy = .iso8601
-    encoder.outputFormatting = [.sortedKeys, .withoutEscapingSlashes, .prettyPrinted]
-    return encoder
 }

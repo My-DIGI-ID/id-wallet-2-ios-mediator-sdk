@@ -31,7 +31,7 @@ struct KeylistUpdate: Codable {
 
 extension KeylistUpdate {
     init(data: Data) throws {
-        self = try jsonDecoder().decode(KeylistUpdate.self, from: data)
+        self = try JSONDecoder.decoder().decode(KeylistUpdate.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -58,7 +58,7 @@ extension KeylistUpdate {
     }
 
     func jsonData() throws -> Data {
-        return try jsonEncoder().encode(self)
+        return try JSONEncoder.encoder().encode(self)
     }
 
     func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
