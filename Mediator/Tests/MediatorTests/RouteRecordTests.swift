@@ -2,7 +2,6 @@
 import XCTest
 
 final class RouteRecordTests: XCTestCase {
-
     func test_decode() throws {
         let expectedDate = Calendar(identifier: .iso8601)
             .date(from: DateComponents(timeZone: TimeZone(abbreviation: "GMT"),

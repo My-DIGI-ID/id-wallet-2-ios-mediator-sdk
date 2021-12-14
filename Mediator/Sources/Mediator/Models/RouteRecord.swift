@@ -32,7 +32,8 @@ public struct RouteRecord: Codable {
 
 public extension RouteRecord {
     init(data: Data) throws {
-        self = try JSONDecoder.decoder(dateDecodingStrategy: .spaceAndInternetFormatted).decode(RouteRecord.self, from: data)
+        self = try JSONDecoder.decoder(dateDecodingStrategy: .spaceAndInternetFormatted)
+            .decode(RouteRecord.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -43,7 +44,8 @@ public extension RouteRecord {
     }
 
     func jsonData() throws -> Data {
-        return try JSONEncoder.encoder(dateEncodingStrategy: .spaceAndInternetFormatted).encode(self)
+        return try JSONEncoder.encoder(dateEncodingStrategy: .spaceAndInternetFormatted)
+            .encode(self)
     }
 
     func jsonString(encoding: String.Encoding = .utf8) throws -> String? {

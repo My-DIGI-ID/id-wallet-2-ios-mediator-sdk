@@ -2,7 +2,6 @@
 import XCTest
 
 final class KeylistUpdateRuleTests: XCTestCase {
-
     func test_decode() throws {
         let sut = try KeylistUpdateRule(TestData.json)
 

@@ -10,3 +10,17 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
+
+import Foundation
+
+public protocol Discoverable {
+    func discover() async throws -> AgentConfiguration
+}
+
+extension MediatorService: Discoverable {
+    public func discover() async throws -> AgentConfiguration {
+        let (data, _) = try await networking.session.data(for: MediatorRouter.discover.request)
+        let decoded = try JSONDecoder.decoder().decode(AgentConfiguration.self, from: data)
+        return decoded
+    }
+}

@@ -2,7 +2,6 @@
 import XCTest
 
 final class CreateInboxResponseMessageTests: XCTestCase {
-
     func test_decode() throws {
         let sut = try CreateInboxResponseMessage(TestData.json)
 

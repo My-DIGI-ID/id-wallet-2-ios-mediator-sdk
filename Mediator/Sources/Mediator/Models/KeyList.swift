@@ -27,7 +27,8 @@ public struct KeyList: Codable {
 
 public extension KeyList {
     init(data: Data) throws {
-        self = try JSONDecoder.decoder(dateDecodingStrategy: .spaceAndInternetFormatted).decode(KeyList.self, from: data)
+        self = try JSONDecoder.decoder(dateDecodingStrategy: .spaceAndInternetFormatted)
+            .decode(KeyList.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -38,7 +39,8 @@ public extension KeyList {
     }
 
     func jsonData() throws -> Data {
-        return try JSONEncoder.encoder(dateEncodingStrategy: .spaceAndInternetFormatted).encode(self)
+        return try JSONEncoder.encoder(dateEncodingStrategy: .spaceAndInternetFormatted)
+            .encode(self)
     }
 
     func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
