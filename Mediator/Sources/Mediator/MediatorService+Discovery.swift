@@ -18,6 +18,9 @@ public protocol Discoverable {
 }
 
 extension MediatorService: Discoverable {
+
+    /// Performs an async network discover request retrieving the mediator information
+    /// - Returns: AgentConfiguratiokn
     public func discover() async throws -> AgentConfiguration {
         let (data, _) = try await networking.session.data(for: MediatorRouter.discover.request)
         let decoded = try JSONDecoder.decoder().decode(AgentConfiguration.self, from: data)
