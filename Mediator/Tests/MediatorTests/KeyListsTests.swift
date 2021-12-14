@@ -3,7 +3,7 @@ import XCTest
 
 final class KeyListsTests: XCTestCase {
     func test_decode() throws {
-        let sut = try KeyLists(TestData.json)
+        let sut = try KeyList(TestData.json)
         XCTAssertFalse(sut.results.isEmpty)
         XCTAssertTrue(sut.results.count == 1)
         XCTAssertTrue(sut.results.first?.connectionId == "string")
@@ -25,7 +25,7 @@ final class KeyListsTests: XCTestCase {
                                  state: "active",
                                  updatedAt: "2021-11-17 15:54:50Z",
                                  walletId: "string")
-        let sut = try KeyLists(results: [record]).jsonString()
+        let sut = try KeyList(results: [record]).jsonString()
         XCTAssertTrue(sut == TestData.json)
     }
 }

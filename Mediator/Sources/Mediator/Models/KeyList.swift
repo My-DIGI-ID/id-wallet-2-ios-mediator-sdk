@@ -15,7 +15,7 @@ import Foundation
 
 // MARK: - KeyLists
 
-public struct KeyLists: Codable {
+public struct KeyList: Codable {
     public let results: [RouteRecord]
 
     public init(results: [RouteRecord]) {
@@ -25,9 +25,9 @@ public struct KeyLists: Codable {
 
 // MARK: KeyLists convenience initializers and mutators
 
-public extension KeyLists {
+public extension KeyList {
     init(data: Data) throws {
-        self = try JSONDecoder.decoder().decode(KeyLists.self, from: data)
+        self = try JSONDecoder.decoder().decode(KeyList.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -41,8 +41,8 @@ public extension KeyLists {
         try self.init(data: try Data(contentsOf: url))
     }
 
-    func with(results: [RouteRecord]? = nil) -> KeyLists {
-        return KeyLists(
+    func with(results: [RouteRecord]? = nil) -> KeyList {
+        return KeyList(
             results: results ?? self.results
         )
     }
