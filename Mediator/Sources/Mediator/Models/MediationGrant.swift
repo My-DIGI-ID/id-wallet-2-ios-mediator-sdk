@@ -33,7 +33,7 @@ struct MediationGrant: Codable {
 
 extension MediationGrant {
     init(data: Data) throws {
-        self = try jsonDecoder().decode(MediationGrant.self, from: data)
+        self = try JSONDecoder.decoder().decode(MediationGrant.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -44,7 +44,7 @@ extension MediationGrant {
     }
 
     func jsonData() throws -> Data {
-        return try jsonEncoder().encode(self)
+        return try JSONEncoder.encoder().encode(self)
     }
 
     func jsonString(encoding: String.Encoding = .utf8) throws -> String? {

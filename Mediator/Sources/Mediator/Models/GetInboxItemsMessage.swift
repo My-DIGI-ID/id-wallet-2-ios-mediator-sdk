@@ -34,7 +34,7 @@ public struct GetInboxItemsMessage: Codable {
 
 public extension GetInboxItemsMessage {
     init(data: Data) throws {
-        self = try jsonDecoder().decode(GetInboxItemsMessage.self, from: data)
+        self = try JSONDecoder.decoder().decode(GetInboxItemsMessage.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -45,7 +45,7 @@ public extension GetInboxItemsMessage {
     }
 
     func jsonData() throws -> Data {
-        return try jsonEncoder().encode(self)
+        return try JSONEncoder.encoder().encode(self)
     }
 
     func jsonString(encoding: String.Encoding = .utf8) throws -> String? {

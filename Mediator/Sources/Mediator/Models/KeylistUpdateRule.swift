@@ -40,7 +40,7 @@ public struct KeylistUpdateRule: Codable {
 
 public extension KeylistUpdateRule {
     init(data: Data) throws {
-        self = try jsonDecoder().decode(KeylistUpdateRule.self, from: data)
+        self = try JSONDecoder.decoder().decode(KeylistUpdateRule.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -51,7 +51,7 @@ public extension KeylistUpdateRule {
     }
 
     func jsonData() throws -> Data {
-        return try jsonEncoder().encode(self)
+        return try JSONEncoder.encoder().encode(self)
     }
 
     func jsonString(encoding: String.Encoding = .utf8) throws -> String? {

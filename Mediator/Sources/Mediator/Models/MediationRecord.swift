@@ -40,7 +40,7 @@ public struct MediationRecord: Codable {
 
 public extension MediationRecord {
     init(data: Data) throws {
-        self = try jsonDecoder(dateDecodingStrategy: .spaceAndInternetFormatted)
+        self = try JSONDecoder.decoder(dateDecodingStrategy: .spaceAndInternetFormatted)
             .decode(MediationRecord.self, from: data)
     }
 
@@ -52,7 +52,8 @@ public extension MediationRecord {
     }
 
     func jsonData() throws -> Data {
-        return try jsonEncoder(dateEncodingStrategy: .spaceAndInternetFormatted).encode(self)
+        return try JSONEncoder.encoder(dateEncodingStrategy: .spaceAndInternetFormatted)
+            .encode(self)
     }
 
     func jsonString(encoding: String.Encoding = .utf8) throws -> String? {

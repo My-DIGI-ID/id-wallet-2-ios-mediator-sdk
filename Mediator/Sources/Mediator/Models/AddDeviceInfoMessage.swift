@@ -40,7 +40,7 @@ public struct AddDeviceInfoMessage: Codable {
 
 public extension AddDeviceInfoMessage {
     init(data: Data) throws {
-        self = try jsonDecoder().decode(AddDeviceInfoMessage.self, from: data)
+        self = try JSONDecoder.decoder().decode(AddDeviceInfoMessage.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -51,7 +51,7 @@ public extension AddDeviceInfoMessage {
     }
 
     func jsonData() throws -> Data {
-        return try jsonEncoder().encode(self)
+        return try JSONEncoder.encoder().encode(self)
     }
 
     func jsonString(encoding: String.Encoding = .utf8) throws -> String? {

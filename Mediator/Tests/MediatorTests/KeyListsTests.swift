@@ -4,6 +4,7 @@ import XCTest
 final class KeyListsTests: XCTestCase {
 
     func test_decode() throws {
+
         let expectedDate = Calendar(identifier: .iso8601)
             .date(from: DateComponents(timeZone: TimeZone(abbreviation: "GMT"),
                                        year: 2021,
@@ -12,8 +13,8 @@ final class KeyListsTests: XCTestCase {
                                        hour: 15,
                                        minute: 54,
                                        second: 50))
+        let sut = try KeyList(TestData.json)
 
-        let sut = try KeyLists(TestData.json)
         XCTAssertFalse(sut.results.isEmpty)
         XCTAssertTrue(sut.results.count == 1)
         XCTAssertTrue(sut.results.first?.connectionId == "string")
@@ -43,7 +44,8 @@ final class KeyListsTests: XCTestCase {
                                  walletId: "string",
                                  createdAt: expectedDate,
                                  updatedAt: expectedDate)
-        let sut = try KeyLists(results: [record]).jsonString()
+        let sut = try KeyList(results: [record]).jsonString()
+
         XCTAssertTrue(sut == TestData.json)
     }
 }

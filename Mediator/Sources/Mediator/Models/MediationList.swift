@@ -23,7 +23,7 @@ struct MediationList: Codable {
 
 extension MediationList {
     init(data: Data) throws {
-        self = try jsonDecoder(dateDecodingStrategy: .spaceAndInternetFormatted).decode(MediationList.self, from: data)
+        self = try JSONDecoder.decoder(dateDecodingStrategy: .spaceAndInternetFormatted).decode(MediationList.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -34,7 +34,7 @@ extension MediationList {
     }
 
     func jsonData() throws -> Data {
-        return try jsonEncoder(dateEncodingStrategy: .spaceAndInternetFormatted).encode(self)
+        return try JSONEncoder.encoder(dateEncodingStrategy: .spaceAndInternetFormatted).encode(self)
     }
 
     func jsonString(encoding: String.Encoding = .utf8) throws -> String? {

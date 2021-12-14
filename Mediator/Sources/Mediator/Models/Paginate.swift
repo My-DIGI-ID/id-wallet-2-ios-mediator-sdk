@@ -28,7 +28,7 @@ public struct Paginate: Codable {
 
 public extension Paginate {
     init(data: Data) throws {
-        self = try jsonDecoder().decode(Paginate.self, from: data)
+        self = try JSONDecoder.decoder().decode(Paginate.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -39,7 +39,7 @@ public extension Paginate {
     }
 
     func jsonData() throws -> Data {
-        return try jsonEncoder().encode(self)
+        return try JSONEncoder.encoder().encode(self)
     }
 
     func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
