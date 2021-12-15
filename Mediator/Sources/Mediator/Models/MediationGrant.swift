@@ -43,24 +43,6 @@ extension MediationGrant {
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    func with(
-        id: String? = nil,
-        type: String? = nil,
-        endpoint: String? = nil,
-        routingKeys: [String]? = nil
-    ) -> MediationGrant {
-        return MediationGrant(
-            id: id ?? self.id,
-            type: type ?? self.type,
-            endpoint: endpoint ?? self.endpoint,
-            routingKeys: routingKeys ?? self.routingKeys
-        )
-    }
-
     func jsonData() throws -> Data {
         return try JSONEncoder.encoder().encode(self)
     }

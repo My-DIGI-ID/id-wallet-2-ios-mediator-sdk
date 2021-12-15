@@ -41,16 +41,6 @@ public extension KeylistUpdateRequest {
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    func with(updates: [KeylistUpdateRule]? = nil) -> KeylistUpdateRequest {
-        return KeylistUpdateRequest(
-            updates: updates ?? self.updates
-        )
-    }
-
     func jsonData() throws -> Data {
         return try JSONEncoder.encoder().encode(self)
     }

@@ -38,20 +38,6 @@ extension MediationCreateRequest {
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    func with(
-        mediatorTerms: [String]? = nil,
-        recipientTerms: [String]? = nil
-    ) -> MediationCreateRequest {
-        return MediationCreateRequest(
-            mediatorTerms: mediatorTerms ?? self.mediatorTerms,
-            recipientTerms: recipientTerms ?? self.recipientTerms
-        )
-    }
-
     func jsonData() throws -> Data {
         return try JSONEncoder.encoder().encode(self)
     }

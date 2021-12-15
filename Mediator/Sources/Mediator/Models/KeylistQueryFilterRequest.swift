@@ -35,18 +35,6 @@ public extension KeylistQueryFilterRequest {
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    func with(
-        filter: JSONValue? = nil
-    ) -> KeylistQueryFilterRequest {
-        return KeylistQueryFilterRequest(
-            filter: filter ?? self.filter
-        )
-    }
-
     func jsonData() throws -> Data {
         return try JSONEncoder.encoder().encode(self)
     }

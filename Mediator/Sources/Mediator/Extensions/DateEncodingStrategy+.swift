@@ -13,11 +13,9 @@
 
 import Foundation
 
-extension JSONEncoder {
-    static func encoder(dateEncodingStrategy: JSONEncoder.DateEncodingStrategy = .iso8601) -> JSONEncoder {
-        let encoder = JSONEncoder()
-        encoder.dateEncodingStrategy = dateEncodingStrategy
-        encoder.outputFormatting = [.sortedKeys, .withoutEscapingSlashes, .prettyPrinted]
-        return encoder
+extension JSONEncoder.DateEncodingStrategy {
+    static let spaceAndInternetFormatted: Self = .custom { date, encoder in
+        var container = encoder.singleValueContainer()
+        try container.encode(ISO8601DateFormatter.spaceAndInternetFormatted.string(from: date))
     }
 }

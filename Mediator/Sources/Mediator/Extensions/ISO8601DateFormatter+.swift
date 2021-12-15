@@ -10,14 +10,13 @@
  * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
  * specific language governing permissions and limitations under the License.
  */
-
 import Foundation
 
-extension JSONEncoder {
-    static func encoder(dateEncodingStrategy: JSONEncoder.DateEncodingStrategy = .iso8601) -> JSONEncoder {
-        let encoder = JSONEncoder()
-        encoder.dateEncodingStrategy = dateEncodingStrategy
-        encoder.outputFormatting = [.sortedKeys, .withoutEscapingSlashes, .prettyPrinted]
-        return encoder
-    }
+extension ISO8601DateFormatter {
+    // Format 2021-11-17 15:54:50Z
+    static let spaceAndInternetFormatted: ISO8601DateFormatter = {
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withSpaceBetweenDateAndTime, .withInternetDateTime]
+        return formatter
+    }()
 }

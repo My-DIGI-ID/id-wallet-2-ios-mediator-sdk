@@ -13,18 +13,28 @@
 
 import Foundation
 
-// MARK: - MediationList
+// MARK: - DeviceMetadata
 
-struct MediationList: Codable {
-    let results: [MediationRecord]
+public struct DeviceMetadata: Codable {
+    public let push: String
+    public let createdAt: TimeInterval
+
+    enum CodingKeys: String, CodingKey {
+        case push = "Push"
+        case createdAt = "CreatedAt"
+    }
+
+    public init(push: String, createdAt: TimeInterval) {
+        self.push = push
+        self.createdAt = createdAt
+    }
 }
 
-// MARK: MediationList convenience initializers and mutators
+// MARK: DeviceMetadata convenience initializers and mutators
 
-extension MediationList {
+public extension DeviceMetadata {
     init(data: Data) throws {
-        self = try JSONDecoder.decoder(dateDecodingStrategy: .spaceAndInternetFormatted)
-            .decode(MediationList.self, from: data)
+        self = try JSONDecoder.decoder().decode(DeviceMetadata.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -35,8 +45,7 @@ extension MediationList {
     }
 
     func jsonData() throws -> Data {
-        return try JSONEncoder.encoder(dateEncodingStrategy: .spaceAndInternetFormatted)
-            .encode(self)
+        return try JSONEncoder.encoder(dateEncodingStrategy: .secondsSince1970).encode(self)
     }
 
     func jsonString(encoding: String.Encoding = .utf8) throws -> String? {

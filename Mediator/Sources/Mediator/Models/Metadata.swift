@@ -13,18 +13,27 @@
 
 import Foundation
 
-// MARK: - MediationList
+// MARK: - Metadata
 
-struct MediationList: Codable {
-    let results: [MediationRecord]
+public struct Metadata: Codable {
+    public let mobileSecret, deviceValidation: String
+
+    enum CodingKeys: String, CodingKey {
+        case mobileSecret = "Mobile-Secret"
+        case deviceValidation = "Device-Validation"
+    }
+
+    public init(mobileSecret: String, deviceValidation: String) {
+        self.mobileSecret = mobileSecret
+        self.deviceValidation = deviceValidation
+    }
 }
 
-// MARK: MediationList convenience initializers and mutators
+// MARK: Metadata convenience initializers and mutators
 
-extension MediationList {
+public extension Metadata {
     init(data: Data) throws {
-        self = try JSONDecoder.decoder(dateDecodingStrategy: .spaceAndInternetFormatted)
-            .decode(MediationList.self, from: data)
+        self = try JSONDecoder.decoder().decode(Metadata.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -35,8 +44,7 @@ extension MediationList {
     }
 
     func jsonData() throws -> Data {
-        return try JSONEncoder.encoder(dateEncodingStrategy: .spaceAndInternetFormatted)
-            .encode(self)
+        return try JSONEncoder.encoder().encode(self)
     }
 
     func jsonString(encoding: String.Encoding = .utf8) throws -> String? {

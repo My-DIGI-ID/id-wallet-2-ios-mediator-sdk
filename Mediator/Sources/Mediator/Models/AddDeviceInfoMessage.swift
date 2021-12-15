@@ -13,18 +13,34 @@
 
 import Foundation
 
-// MARK: - MediationList
+// MARK: - AddDeviceInfoMessage
 
-struct MediationList: Codable {
-    let results: [MediationRecord]
+public struct AddDeviceInfoMessage: Codable {
+    public let id: String
+    public let type: String
+    public let deviceId, deviceVendor: String
+    public let deviceMetadata: DeviceMetadata
+
+    enum CodingKeys: String, CodingKey {
+        case id = "@id"
+        case type = "@type"
+        case deviceId, deviceVendor, deviceMetadata
+    }
+
+    public init(id: String, type: String, deviceId: String, deviceVendor: String, deviceMetadata: DeviceMetadata) {
+        self.id = id
+        self.type = type
+        self.deviceId = deviceId
+        self.deviceVendor = deviceVendor
+        self.deviceMetadata = deviceMetadata
+    }
 }
 
-// MARK: MediationList convenience initializers and mutators
+// MARK: AddDeviceInfoMessage convenience initializers and mutators
 
-extension MediationList {
+public extension AddDeviceInfoMessage {
     init(data: Data) throws {
-        self = try JSONDecoder.decoder(dateDecodingStrategy: .spaceAndInternetFormatted)
-            .decode(MediationList.self, from: data)
+        self = try JSONDecoder.decoder().decode(AddDeviceInfoMessage.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -35,8 +51,7 @@ extension MediationList {
     }
 
     func jsonData() throws -> Data {
-        return try JSONEncoder.encoder(dateEncodingStrategy: .spaceAndInternetFormatted)
-            .encode(self)
+        return try JSONEncoder.encoder().encode(self)
     }
 
     func jsonString(encoding: String.Encoding = .utf8) throws -> String? {

@@ -14,11 +14,13 @@
 import Foundation
 
 public struct MediationRecord: Codable {
-    public let connectionId, createdAt, endpoint, mediationId: String
-    public let mediatorTerms, recipientTerms: [String]
+    public let connectionId: String
     public let role: String
-    public let routingKeys: [String]
-    public let state, updatedAt: String
+    public let endpoint, mediationId: String?
+    public let mediatorTerms, recipientTerms: [String]?
+    public let routingKeys: [String]?
+    public let state: String?
+    public let createdAt, updatedAt: Date?
 
     enum CodingKeys: String, CodingKey {
         case connectionId = "connection_id"
@@ -32,26 +34,14 @@ public struct MediationRecord: Codable {
         case state
         case updatedAt = "updated_at"
     }
-
-    public init(connectionId: String, createdAt: String, endpoint: String, mediationId: String, mediatorTerms: [String], recipientTerms: [String], role: String, routingKeys: [String], state: String, updatedAt: String) {
-        self.connectionId = connectionId
-        self.createdAt = createdAt
-        self.endpoint = endpoint
-        self.mediationId = mediationId
-        self.mediatorTerms = mediatorTerms
-        self.recipientTerms = recipientTerms
-        self.role = role
-        self.routingKeys = routingKeys
-        self.state = state
-        self.updatedAt = updatedAt
-    }
 }
 
 // MARK: MediationRecord convenience initializers and mutators
 
 public extension MediationRecord {
     init(data: Data) throws {
-        self = try JSONDecoder.decoder().decode(MediationRecord.self, from: data)
+        self = try JSONDecoder.decoder(dateDecodingStrategy: .spaceAndInternetFormatted)
+            .decode(MediationRecord.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -61,38 +51,9 @@ public extension MediationRecord {
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    func with(
-        connectionId: String? = nil,
-        createdAt: String? = nil,
-        endpoint: String? = nil,
-        mediationId: String? = nil,
-        mediatorTerms: [String]? = nil,
-        recipientTerms: [String]? = nil,
-        role: String? = nil,
-        routingKeys: [String]? = nil,
-        state: String? = nil,
-        updatedAt: String? = nil
-    ) -> MediationRecord {
-        return MediationRecord(
-            connectionId: connectionId ?? self.connectionId,
-            createdAt: createdAt ?? self.createdAt,
-            endpoint: endpoint ?? self.endpoint,
-            mediationId: mediationId ?? self.mediationId,
-            mediatorTerms: mediatorTerms ?? self.mediatorTerms,
-            recipientTerms: recipientTerms ?? self.recipientTerms,
-            role: role ?? self.role,
-            routingKeys: routingKeys ?? self.routingKeys,
-            state: state ?? self.state,
-            updatedAt: updatedAt ?? self.updatedAt
-        )
-    }
-
     func jsonData() throws -> Data {
-        return try JSONEncoder.encoder().encode(self)
+        return try JSONEncoder.encoder(dateEncodingStrategy: .spaceAndInternetFormatted)
+            .encode(self)
     }
 
     func jsonString(encoding: String.Encoding = .utf8) throws -> String? {
