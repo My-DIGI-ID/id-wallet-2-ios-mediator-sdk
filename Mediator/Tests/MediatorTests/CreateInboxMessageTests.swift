@@ -2,7 +2,6 @@
 import XCTest
 
 final class CreateInboxMessageTests: XCTestCase {
-
     func test_decode() throws {
         let sut = try CreateInboxMessage(TestData.json)
         XCTAssertTrue(sut.id == "fdc65ce9-5122-4315-8f66-eedba2f4b5d0")
@@ -20,7 +19,6 @@ final class CreateInboxMessageTests: XCTestCase {
         let sut = try CreateInboxMessage(id: "fdc65ce9-5122-4315-8f66-eedba2f4b5d0",
                                          type: "https://didcomm.org/basic-routing/1.0/create-inbox",
                                          metadata: metaData).jsonString()
-        print(sut!)
         XCTAssertTrue(sut == TestData.json)
     }
 }

@@ -11,13 +11,8 @@
  * specific language governing permissions and limitations under the License.
  */
 
-import Foundation
+public class MediatorService {
+    private(set) lazy var networking = Networking()
 
-extension JSONEncoder {
-    static func encoder(dateEncodingStrategy: JSONEncoder.DateEncodingStrategy = .iso8601) -> JSONEncoder {
-        let encoder = JSONEncoder()
-        encoder.dateEncodingStrategy = dateEncodingStrategy
-        encoder.outputFormatting = [.sortedKeys, .withoutEscapingSlashes, .prettyPrinted]
-        return encoder
-    }
+    public init() {}
 }

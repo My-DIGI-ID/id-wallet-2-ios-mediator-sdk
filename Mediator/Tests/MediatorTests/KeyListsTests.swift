@@ -2,9 +2,7 @@
 import XCTest
 
 final class KeyListsTests: XCTestCase {
-
     func test_decode() throws {
-
         let expectedDate = Calendar(identifier: .iso8601)
             .date(from: DateComponents(timeZone: TimeZone(abbreviation: "GMT"),
                                        year: 2021,

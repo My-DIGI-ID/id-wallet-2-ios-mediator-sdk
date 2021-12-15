@@ -48,7 +48,6 @@ final class MediationListTests: XCTestCase {
                                      createdAt: expectedDate,
                                      updatedAt: expectedDate)
         let sut = try MediationList(results: [record]).jsonString()
-        print(sut!)
         XCTAssertTrue(sut == TestData.json)
     }
 }

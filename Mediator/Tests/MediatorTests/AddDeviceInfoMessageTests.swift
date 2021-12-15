@@ -21,7 +21,6 @@ final class AddDeviceInfoMessageTests: XCTestCase {
                                            deviceVendor: "iOS",
                                            deviceMetadata: DeviceMetadata(push: "NotificationHubIDW",
                                                                           createdAt: expectedDate)).jsonString()
-        print(sut!)
         XCTAssertTrue(sut == TestData.json)
     }
 }
