@@ -39,6 +39,7 @@ extension Endpoint {
     }
 
     var request: URLRequest {
+        // swiftlint:disable:next identifier_name
         var _request = URLRequest(url: url)
         _request.httpMethod = method.rawValue
         return _request
