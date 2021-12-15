@@ -7,8 +7,8 @@ final class KeylistQueryTests: XCTestCase {
         XCTAssertTrue(sut.id == "3fa85f64-5717-4562-b3fc-2c963f66afa6")
         XCTAssertTrue(sut.type == "https://didcomm.org/my-family/1.0/my-message-type")
         XCTAssertTrue(sut.filter == ["filter": [:]])
-        XCTAssertTrue(sut.paginate.limit == 30)
-        XCTAssertTrue(sut.paginate.offset == 0)
+        XCTAssertTrue(sut.paginate?.limit == 30)
+        XCTAssertTrue(sut.paginate?.offset == 0)
     }
 
     func test_encode() throws {

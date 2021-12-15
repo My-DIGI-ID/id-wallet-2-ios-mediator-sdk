@@ -38,20 +38,6 @@ public extension Paginate {
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    func with(
-        limit: Int? = nil,
-        offset: Int? = nil
-    ) -> Paginate {
-        return Paginate(
-            limit: limit ?? self.limit,
-            offset: offset ?? self.offset
-        )
-    }
-
     func jsonData() throws -> Data {
         return try JSONEncoder.encoder().encode(self)
     }

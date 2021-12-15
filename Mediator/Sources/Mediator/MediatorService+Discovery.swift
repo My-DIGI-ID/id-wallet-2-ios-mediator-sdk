@@ -13,11 +13,16 @@
 
 import Foundation
 
-extension JSONEncoder {
-    static func encoder(dateEncodingStrategy: JSONEncoder.DateEncodingStrategy = .iso8601) -> JSONEncoder {
-        let encoder = JSONEncoder()
-        encoder.dateEncodingStrategy = dateEncodingStrategy
-        encoder.outputFormatting = [.sortedKeys, .withoutEscapingSlashes, .prettyPrinted]
-        return encoder
+public protocol Discoverable {
+    func discover() async throws -> AgentConfiguration
+}
+
+extension MediatorService: Discoverable {
+    /// Performs an async network discover request retrieving the mediator information
+    /// - Returns: AgentConfiguration
+    public func discover() async throws -> AgentConfiguration {
+        let (data, _) = try await networking.session.data(for: MediatorRouter.discover.request)
+        let decoded = try JSONDecoder.decoder().decode(AgentConfiguration.self, from: data)
+        return decoded
     }
 }

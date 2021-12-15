@@ -13,18 +13,28 @@
 
 import Foundation
 
-// MARK: - MediationList
+// MARK: - GetInboxItemsMessage
 
-struct MediationList: Codable {
-    let results: [MediationRecord]
+public struct GetInboxItemsMessage: Codable {
+    public let id: String
+    public let type: String
+
+    enum CodingKeys: String, CodingKey {
+        case id = "@id"
+        case type = "@type"
+    }
+
+    public init(id: String, type: String) {
+        self.id = id
+        self.type = type
+    }
 }
 
-// MARK: MediationList convenience initializers and mutators
+// MARK: GetInboxItemsMessage convenience initializers and mutators
 
-extension MediationList {
+public extension GetInboxItemsMessage {
     init(data: Data) throws {
-        self = try JSONDecoder.decoder(dateDecodingStrategy: .spaceAndInternetFormatted)
-            .decode(MediationList.self, from: data)
+        self = try JSONDecoder.decoder().decode(GetInboxItemsMessage.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -35,8 +45,7 @@ extension MediationList {
     }
 
     func jsonData() throws -> Data {
-        return try JSONEncoder.encoder(dateEncodingStrategy: .spaceAndInternetFormatted)
-            .encode(self)
+        return try JSONEncoder.encoder().encode(self)
     }
 
     func jsonString(encoding: String.Encoding = .utf8) throws -> String? {

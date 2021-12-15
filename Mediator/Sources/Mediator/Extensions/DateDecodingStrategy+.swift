@@ -13,11 +13,13 @@
 
 import Foundation
 
-extension JSONEncoder {
-    static func encoder(dateEncodingStrategy: JSONEncoder.DateEncodingStrategy = .iso8601) -> JSONEncoder {
-        let encoder = JSONEncoder()
-        encoder.dateEncodingStrategy = dateEncodingStrategy
-        encoder.outputFormatting = [.sortedKeys, .withoutEscapingSlashes, .prettyPrinted]
-        return encoder
+extension JSONDecoder.DateDecodingStrategy {
+    static let spaceAndInternetFormatted: Self = .custom { decoder in
+        let container = try decoder.singleValueContainer()
+        let dateString = try container.decode(String.self)
+        guard let date = ISO8601DateFormatter.spaceAndInternetFormatted.date(from: dateString) else {
+            throw DecodingError.dataCorruptedError(in: container, debugDescription: "Could not decode: \(dateString)")
+        }
+        return date
     }
 }

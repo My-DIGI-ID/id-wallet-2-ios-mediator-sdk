@@ -14,8 +14,10 @@
 import Foundation
 
 public struct RouteRecord: Codable {
-    let connectionId, createdAt, recipientKey, recordId: String
-    let role, state, updatedAt, walletId: String
+    let recipientKey: String
+    let connectionId, recordId: String?
+    let role, state, walletId: String?
+    let createdAt, updatedAt: Date?
 
     enum CodingKeys: String, CodingKey {
         case connectionId = "connection_id"
@@ -30,7 +32,8 @@ public struct RouteRecord: Codable {
 
 public extension RouteRecord {
     init(data: Data) throws {
-        self = try JSONDecoder.decoder().decode(RouteRecord.self, from: data)
+        self = try JSONDecoder.decoder(dateDecodingStrategy: .spaceAndInternetFormatted)
+            .decode(RouteRecord.self, from: data)
     }
 
     init(_ json: String, using encoding: String.Encoding = .utf8) throws {
@@ -40,34 +43,9 @@ public extension RouteRecord {
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    func with(
-        connectionId: String? = nil,
-        createdAt: String? = nil,
-        recipientKey: String? = nil,
-        recordId: String? = nil,
-        role: String? = nil,
-        state: String? = nil,
-        updatedAt: String? = nil,
-        walletId: String? = nil
-    ) -> RouteRecord {
-        return RouteRecord(
-            connectionId: connectionId ?? self.connectionId,
-            createdAt: createdAt ?? self.createdAt,
-            recipientKey: recipientKey ?? self.recipientKey,
-            recordId: recordId ?? self.recordId,
-            role: role ?? self.role,
-            state: state ?? self.state,
-            updatedAt: updatedAt ?? self.updatedAt,
-            walletId: walletId ?? self.walletId
-        )
-    }
-
     func jsonData() throws -> Data {
-        return try JSONEncoder.encoder().encode(self)
+        return try JSONEncoder.encoder(dateEncodingStrategy: .spaceAndInternetFormatted)
+            .encode(self)
     }
 
     func jsonString(encoding: String.Encoding = .utf8) throws -> String? {

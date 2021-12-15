@@ -42,24 +42,6 @@ extension MediationDeny {
         try self.init(data: data)
     }
 
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    func with(
-        id: String? = nil,
-        type: String? = nil,
-        mediatorTerms: [String]? = nil,
-        recipientTerms: [String]? = nil
-    ) -> MediationDeny {
-        return MediationDeny(
-            id: id ?? self.id,
-            type: type ?? self.type,
-            mediatorTerms: mediatorTerms ?? self.mediatorTerms,
-            recipientTerms: recipientTerms ?? self.recipientTerms
-        )
-    }
-
     func jsonData() throws -> Data {
         return try JSONEncoder.encoder().encode(self)
     }

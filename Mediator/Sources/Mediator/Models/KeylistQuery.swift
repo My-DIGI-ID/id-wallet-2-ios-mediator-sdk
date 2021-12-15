@@ -16,22 +16,15 @@ import Foundation
 // MARK: - KeylistQuery
 
 public struct KeylistQuery: Codable {
-    public let id: String
-    public let type: String
-    public let filter: JSONValue
-    public let paginate: Paginate
+    public let id: String?
+    public let type: String?
+    public let filter: JSONValue?
+    public let paginate: Paginate?
 
     enum CodingKeys: String, CodingKey {
         case id = "@id"
         case type = "@type"
         case filter, paginate
-    }
-
-    public init(id: String, type: String, filter: JSONValue, paginate: Paginate) {
-        self.id = id
-        self.type = type
-        self.filter = filter
-        self.paginate = paginate
     }
 }
 
@@ -47,24 +40,6 @@ public extension KeylistQuery {
             throw NSError(domain: "JSONDecoding", code: 0, userInfo: nil)
         }
         try self.init(data: data)
-    }
-
-    init(fromURL url: URL) throws {
-        try self.init(data: try Data(contentsOf: url))
-    }
-
-    func with(
-        id: String? = nil,
-        type: String? = nil,
-        filter: JSONValue? = nil,
-        paginate: Paginate? = nil
-    ) -> KeylistQuery {
-        return KeylistQuery(
-            id: id ?? self.id,
-            type: type ?? self.type,
-            filter: filter ?? self.filter,
-            paginate: paginate ?? self.paginate
-        )
     }
 
     func jsonData() throws -> Data {
