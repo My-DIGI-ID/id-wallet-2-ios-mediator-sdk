@@ -17,6 +17,7 @@ final class Networking {
     static var hostURL: URL = .init(string: "https://ssi-mediator-20.esatus.com")!
 
     enum Version: String {
+        // swiftlint:disable:next identifier_name
         case v1
     }
 
