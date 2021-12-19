@@ -26,3 +26,36 @@ extension MediatorService: Discoverable {
         return decoded
     }
 }
+
+public protocol MediatorProtocol {
+    func createInbox(id: String, metadata: Metadata, challenge: Data) async throws -> CreateInboxResponseMessage
+    func addRoute(id: String, destination: String) async throws
+    func getInboxItems(id: String) async throws -> GetInboxItemsResponseMessage
+    func deleteInboxItems(id: String, inboxItemIds: [String]) async throws
+    func addDeviceInfo(id: String, deviceId: String, deviceMetadata: DeviceMetadata) async throws
+}
+
+extension MediatorService: MediatorProtocol {
+    public func createInbox(id: String, metadata: Metadata, challenge: Data) async throws -> CreateInboxResponseMessage {
+        let attestionObject = try await IDWalletSecurity().getAttestionObject(challenge: challenge)
+        let (data, _) = try await networking.session.data(for: MediatorRouter.createInbox(id: id, metadata: metadata).urlRequest())
+        return try CreateInboxResponseMessage(data: data)
+    }
+
+    public func addRoute(id: String, destination: String) async throws {
+        let (_, _) = try await networking.session.data(for: MediatorRouter.addRoute(id: id, destination: destination).urlRequest())
+    }
+
+    public func getInboxItems(id: String) async throws -> GetInboxItemsResponseMessage {
+        let (data, _) = try await networking.session.data(for: MediatorRouter.getInboxItems(id: id).urlRequest())
+        return try GetInboxItemsResponseMessage(data: data)
+    }
+
+    public func deleteInboxItems(id: String, inboxItemIds: [String]) async throws {
+        let (_, _) = try await networking.session.data(for: MediatorRouter.deleteInboxItems(id: id, inboxItemIds: inboxItemIds).urlRequest())
+    }
+
+    public func addDeviceInfo(id: String, deviceId: String, deviceMetadata: DeviceMetadata) async throws {
+        let (_, _) = try await networking.session.data(for: MediatorRouter.addDeviceInfo(id: id, deviceId: deviceId, deviceMetadata: deviceMetadata).urlRequest())
+    }
+}

@@ -32,3 +32,17 @@ final class MediatorServiceTests: XCTestCase {
         }
     }
 }
+
+private enum TestData {
+    static let json =
+        """
+        {
+          "@id" : "fdc65ce9-5122-4315-8f66-eedba2f4b5d0",
+          "@type" : "https://didcomm.org/basic-routing/1.0/create-inbox",
+          "metadata" : {
+            "Device-Validation" : "DEVICE-VALIDATION-RESULT",
+            "Mobile-Secret" : "SECRET"
+          }
+        }
+        """
+}

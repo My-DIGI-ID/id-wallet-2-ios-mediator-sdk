@@ -11,7 +11,7 @@ final class GetInboxItemsResponseMessageTests: XCTestCase {
 
     func test_encode() throws {
         let sut = try GetInboxItemsResponseMessage(items: [
-            InboxItemMessage(data: "string", timestamp: 1_639_158_204)
+            InboxItemMessage(data: "string", timestamp: 1_639_158_204),
         ]).jsonString()
         XCTAssertTrue(sut == TestData.json)
     }

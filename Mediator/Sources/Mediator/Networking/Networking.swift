@@ -24,7 +24,7 @@ final class Networking {
     static var sessionConfiguration: URLSessionConfiguration = {
         let configuration = URLSessionConfiguration.default
         configuration.httpAdditionalHeaders = [
-            "Content-Type": "application/ssi-agent-wire"
+            "Content-Type": "application/ssi-agent-wire",
         ]
         configuration.waitsForConnectivity = true
         configuration.allowsCellularAccess = true
