@@ -38,24 +38,29 @@ public protocol MediatorProtocol {
 extension MediatorService: MediatorProtocol {
     public func createInbox(id: String, metadata: Metadata, challenge: Data) async throws -> CreateInboxResponseMessage {
         let attestionObject = try await IDWalletSecurity().getAttestionObject(challenge: challenge)
-        let (data, _) = try await networking.session.data(for: MediatorRouter.createInbox(id: id, metadata: metadata).urlRequest())
+        let request = MediatorRouter.createInbox(id: id, metadata: metadata).urlRequest()
+        let (data, _) = try await networking.session.data(for: request)
         return try CreateInboxResponseMessage(data: data)
     }
 
     public func addRoute(id: String, destination: String) async throws {
-        let (_, _) = try await networking.session.data(for: MediatorRouter.addRoute(id: id, destination: destination).urlRequest())
+        let request = MediatorRouter.addRoute(id: id, destination: destination).urlRequest()
+        let (_, _) = try await networking.session.data(for: request)
     }
 
     public func getInboxItems(id: String) async throws -> GetInboxItemsResponseMessage {
-        let (data, _) = try await networking.session.data(for: MediatorRouter.getInboxItems(id: id).urlRequest())
+        let request = MediatorRouter.getInboxItems(id: id).urlRequest()
+        let (data, _) = try await networking.session.data(for: request)
         return try GetInboxItemsResponseMessage(data: data)
     }
 
     public func deleteInboxItems(id: String, inboxItemIds: [String]) async throws {
-        let (_, _) = try await networking.session.data(for: MediatorRouter.deleteInboxItems(id: id, inboxItemIds: inboxItemIds).urlRequest())
+        let request = MediatorRouter.deleteInboxItems(id: id, inboxItemIds: inboxItemIds).urlRequest()
+        let (_, _) = try await networking.session.data(for: request)
     }
 
     public func addDeviceInfo(id: String, deviceId: String, deviceMetadata: DeviceMetadata) async throws {
-        let (_, _) = try await networking.session.data(for: MediatorRouter.addDeviceInfo(id: id, deviceId: deviceId, deviceMetadata: deviceMetadata).urlRequest())
+        let request = MediatorRouter.addDeviceInfo(id: id, deviceId: deviceId, deviceMetadata: deviceMetadata).urlRequest()
+        let (_, _) = try await networking.session.data(for: request)
     }
 }

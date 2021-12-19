@@ -11,10 +11,10 @@ let package = Package(
         .library(
             name: "Mediator",
             targets: ["Mediator"]
-        ),
+        )
     ],
     dependencies: [
-        .package(url: "https://github.com/square/Valet", from: "4.1.2"),
+        .package(url: "https://github.com/square/Valet", from: "4.1.2")
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
     ],
@@ -28,6 +28,6 @@ let package = Package(
         .testTarget(
             name: "MediatorTests",
             dependencies: ["Mediator"]
-        ),
+        )
     ]
 )

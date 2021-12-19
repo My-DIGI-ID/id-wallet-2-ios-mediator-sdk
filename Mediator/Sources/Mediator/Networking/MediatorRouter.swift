@@ -118,13 +118,19 @@ enum MediatorRouter: Endpoint {
             request.httpBody = data
         case let .deleteInboxItems(id, inboxItemIds):
             request.addValue("True", forHTTPHeaderField: "IsDeleteInboxItems")
-            guard let data = try? DeleteInboxItemsMessage(id: id, type: messageType, inboxItemIds: inboxItemIds).jsonData() else {
+            guard let data = try? DeleteInboxItemsMessage(id: id,
+                                                          type: messageType,
+                                                          inboxItemIds: inboxItemIds).jsonData() else {
                 return
             }
             request.httpBody = data
         case let .addDeviceInfo(id, deviceId, deviceMetadata):
             request.addValue("True", forHTTPHeaderField: "IsDeviceRegistration")
-            guard let data = try? AddDeviceInfoMessage(id: id, type: messageType, deviceId: deviceId, deviceVendor: "iOS", deviceMetadata: deviceMetadata).jsonData() else {
+            guard let data = try? AddDeviceInfoMessage(id: id,
+                                                       type: messageType,
+                                                       deviceId: deviceId,
+                                                       deviceVendor: "iOS",
+                                                       deviceMetadata: deviceMetadata).jsonData() else {
                 return
             }
             request.httpBody = data

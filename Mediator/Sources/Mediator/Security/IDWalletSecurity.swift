@@ -22,15 +22,10 @@ private enum Constants {
 }
 
 protocol IDWalletSecure {
-    var nonce: String {get}
     func getAttestionObject(challenge: Data) async throws -> String
 }
 
 struct IDWalletSecurity: IDWalletSecure {
-
-    var nonce: String {
-        AES.GCM.Nonce
-    }
 
     private let valet = Valet.valet(with: Constants.valetIdentifier,
                                     accessibility: .whenUnlockedThisDeviceOnly)
