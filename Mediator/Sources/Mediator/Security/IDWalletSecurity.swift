@@ -26,7 +26,6 @@ protocol IDWalletSecure {
 }
 
 struct IDWalletSecurity: IDWalletSecure {
-
     private let valet = Valet.valet(with: Constants.valetIdentifier,
                                     accessibility: .whenUnlockedThisDeviceOnly)
 
