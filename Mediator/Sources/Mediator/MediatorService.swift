@@ -11,8 +11,46 @@
  * specific language governing permissions and limitations under the License.
  */
 
-public class MediatorService {
+import Foundation
+
+public protocol MediatorProtocol {
+    func createInbox(id: String, metadata: Metadata, challenge: Data) async throws -> CreateInboxResponseMessage
+    func addRoute(id: String, destination: String) async throws
+    func getInboxItems(id: String) async throws -> GetInboxItemsResponseMessage
+    func deleteInboxItems(id: String, inboxItemIds: [String]) async throws
+    func addDeviceInfo(id: String, deviceId: String, deviceMetadata: DeviceMetadata) async throws
+}
+
+public class MediatorService: MediatorProtocol {
     private(set) lazy var networking = Networking()
 
     public init() {}
+
+    public func createInbox(id: String, metadata: Metadata, challenge: Data) async throws -> CreateInboxResponseMessage {
+        let attestionObject = try await IDWalletSecurity().getAttestionObject(challenge: challenge)
+        let request = MediatorRouter.createInbox(id: id, metadata: metadata).urlRequest()
+        let (data, _) = try await networking.session.data(for: request)
+        return try CreateInboxResponseMessage(data: data)
+    }
+
+    public func addRoute(id: String, destination: String) async throws {
+        let request = MediatorRouter.addRoute(id: id, destination: destination).urlRequest()
+        _ = try await networking.session.data(for: request)
+    }
+
+    public func getInboxItems(id: String) async throws -> GetInboxItemsResponseMessage {
+        let request = MediatorRouter.getInboxItems(id: id).urlRequest()
+        let (data, _) = try await networking.session.data(for: request)
+        return try GetInboxItemsResponseMessage(data: data)
+    }
+
+    public func deleteInboxItems(id: String, inboxItemIds: [String]) async throws {
+        let request = MediatorRouter.deleteInboxItems(id: id, inboxItemIds: inboxItemIds).urlRequest()
+        _ = try await networking.session.data(for: request)
+    }
+
+    public func addDeviceInfo(id: String, deviceId: String, deviceMetadata: DeviceMetadata) async throws {
+        let request = MediatorRouter.addDeviceInfo(id: id, deviceId: deviceId, deviceMetadata: deviceMetadata).urlRequest()
+        _ = try await networking.session.data(for: request)
+    }
 }
