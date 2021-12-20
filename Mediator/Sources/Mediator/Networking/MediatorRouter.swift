@@ -14,6 +14,32 @@
 import DeviceCheck
 import Foundation
 
+private enum Constants {
+    static let timeoutInterval: Double = 20
+    static let deviceVendor = "iOS"
+
+    enum HttpHeaderFields {
+        static let createInbox = "IsInboxCreation"
+        static let addRoute = "IsAddRouting"
+        static let getInboxItems = "IsGetInboxItems"
+        static let deleteInboxItems = "IsDeleteInboxItems"
+        static let addDeviceInfo = "IsDeviceRegistration"
+
+        enum Values {
+            static let True = "True"
+        }
+    }
+
+    enum MessageType {
+        static let none = ""
+        static let createInbox = "https://didcomm.org/basic-routing/1.0/create-inbox"
+        static let addRoute = "https://didcomm.org/basic-routing/1.0/add-route"
+        static let getInboxItems = "https://didcomm.org/basic-routing/1.0/get-inbox-items"
+        static let deleteInboxItems = "https://didcomm.org/basic-routing/1.0/delete-inbox-items"
+        static let addDeviceInfo = "https://didcomm.org/basic-routing/1.0/add-device-info"
+    }
+}
+
 enum MediatorRouter: Endpoint {
     case discover
     case createInbox(id: String, metadata: Metadata)
@@ -25,17 +51,17 @@ enum MediatorRouter: Endpoint {
     var messageType: String {
         switch self {
         case .discover:
-            return ""
+            return Constants.MessageType.none
         case .createInbox:
-            return "https://didcomm.org/basic-routing/1.0/create-inbox"
+            return Constants.MessageType.createInbox
         case .addRoute:
-            return "https://didcomm.org/basic-routing/1.0/add-route"
+            return Constants.MessageType.addRoute
         case .getInboxItems:
-            return "https://didcomm.org/basic-routing/1.0/get-inbox-items"
+            return Constants.MessageType.getInboxItems
         case .deleteInboxItems:
-            return "https://didcomm.org/basic-routing/1.0/delete-inbox-items"
+            return Constants.MessageType.deleteInboxItems
         case .addDeviceInfo:
-            return "https://didcomm.org/basic-routing/1.0/add-device-info"
+            return Constants.MessageType.addDeviceInfo
         }
     }
 
@@ -86,12 +112,37 @@ enum MediatorRouter: Endpoint {
         }
     }
 
+    func urlRequest(cachePolicy: URLRequest.CachePolicy = .reloadIgnoringLocalAndRemoteCacheData) -> URLRequest {
+        var request = URLRequest(url: url, cachePolicy: cachePolicy, timeoutInterval: Constants.timeoutInterval)
+        request.httpMethod = method.rawValue
+        switch self {
+        case .discover:
+            break
+        case .createInbox:
+            request.addValue(Constants.HttpHeaderFields.Values.True,
+                             forHTTPHeaderField: Constants.HttpHeaderFields.createInbox)
+        case .addRoute:
+            request.addValue(Constants.HttpHeaderFields.Values.True,
+                             forHTTPHeaderField: Constants.HttpHeaderFields.addRoute)
+        case .getInboxItems:
+            request.addValue(Constants.HttpHeaderFields.Values.True,
+                             forHTTPHeaderField: Constants.HttpHeaderFields.getInboxItems)
+        case .deleteInboxItems:
+            request.addValue(Constants.HttpHeaderFields.Values.True,
+                             forHTTPHeaderField: Constants.HttpHeaderFields.deleteInboxItems)
+        case .addDeviceInfo:
+            request.addValue(Constants.HttpHeaderFields.Values.True,
+                             forHTTPHeaderField: Constants.HttpHeaderFields.addDeviceInfo)
+        }
+        encodeHttpBody(request: &request)
+        return request
+    }
+
     func encodeHttpBody(request: inout URLRequest) {
         switch self {
         case .discover:
             break
         case let .createInbox(id, metadata):
-            request.addValue("True", forHTTPHeaderField: "IsInboxCreation")
             guard let data = try? CreateInboxMessage(id: id,
                                                      type: messageType,
                                                      metadata: metadata).jsonData()
@@ -100,7 +151,6 @@ enum MediatorRouter: Endpoint {
             }
             request.httpBody = data
         case let .addRoute(id, destination):
-            request.addValue("True", forHTTPHeaderField: "IsAddRouting")
             guard let data = try? AddRouteMessage(id: id,
                                                   type: messageType,
                                                   routeDestination: destination).jsonData()
@@ -109,7 +159,6 @@ enum MediatorRouter: Endpoint {
             }
             request.httpBody = data
         case let .getInboxItems(id):
-            request.addValue("True", forHTTPHeaderField: "IsGetInboxItems")
             guard let data = try? GetInboxItemsMessage(id: id,
                                                        type: messageType).jsonData()
             else {
@@ -117,7 +166,6 @@ enum MediatorRouter: Endpoint {
             }
             request.httpBody = data
         case let .deleteInboxItems(id, inboxItemIds):
-            request.addValue("True", forHTTPHeaderField: "IsDeleteInboxItems")
             guard let data = try? DeleteInboxItemsMessage(id: id,
                                                           type: messageType,
                                                           inboxItemIds: inboxItemIds).jsonData()
@@ -126,11 +174,10 @@ enum MediatorRouter: Endpoint {
             }
             request.httpBody = data
         case let .addDeviceInfo(id, deviceId, deviceMetadata):
-            request.addValue("True", forHTTPHeaderField: "IsDeviceRegistration")
             guard let data = try? AddDeviceInfoMessage(id: id,
                                                        type: messageType,
                                                        deviceId: deviceId,
-                                                       deviceVendor: "iOS",
+                                                       deviceVendor: Constants.deviceVendor,
                                                        deviceMetadata: deviceMetadata).jsonData()
             else {
                 return
