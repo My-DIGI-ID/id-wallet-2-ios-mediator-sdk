@@ -1,2 +1,3 @@
-# Mediator iOS SDK
+# Mediator
 
+A description of this package.
