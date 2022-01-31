@@ -25,7 +25,7 @@ protocol IDWalletSecure {
     func getAttestionObject(challenge: Data) async throws -> String
 }
 
-struct IDWalletSecurity: IDWalletSecure {
+public struct IDWalletSecurity: IDWalletSecure {
     private let valet = Valet.valet(with: Constants.valetIdentifier,
                                     accessibility: .whenUnlockedThisDeviceOnly)
 
@@ -53,7 +53,7 @@ struct IDWalletSecurity: IDWalletSecure {
     /// Retrieves the attestation object from Apple
     /// - Parameter challenge: the challenge (nonce) from the server
     /// - Returns: An Base64 encoded String of the attestation object
-    func getAttestionObject(challenge: Data) async throws -> String {
+    public func getAttestionObject(challenge: Data) async throws -> String {
         let keyId = try await getAppAttestKey()
         let hash = Data(SHA256.hash(data: challenge))
         let data = try await DCAppAttestService.shared.attestKey(keyId, clientDataHash: hash)

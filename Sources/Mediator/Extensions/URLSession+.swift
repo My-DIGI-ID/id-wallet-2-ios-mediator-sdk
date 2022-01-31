@@ -25,9 +25,12 @@ extension URLSession {
     func data(for request: URLRequest, delegate _: URLSessionTaskDelegate? = nil) async throws -> (Data, URLResponse) {
         try await withCheckedThrowingContinuation { continuation in
             let task = self.dataTask(with: request) { data, response, error in
-                guard let data = data, let response = response else {
+                guard let data = data, let response = (response as? HTTPURLResponse) else {
                     let error = error ?? URLError(.badServerResponse)
                     return continuation.resume(throwing: error)
+                }
+                guard (200...299).contains(response.statusCode) else {
+                    return continuation.resume(throwing: URLError(.init(rawValue: response.statusCode)))
                 }
                 continuation.resume(returning: (data, response))
             }

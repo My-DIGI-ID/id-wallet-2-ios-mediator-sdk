@@ -14,7 +14,7 @@
 import Foundation
 
 final class Networking {
-    static var hostURL: URL = .init(string: "https://ssi-mediator-20.esatus.com")!
+    static var hostURL: URL = .init(string: "https://mediator.dev.essid-demo.com")!
 
     enum Version: String {
         // swiftlint:disable:next identifier_name

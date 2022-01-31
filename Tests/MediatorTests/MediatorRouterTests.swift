@@ -10,7 +10,8 @@ final class MediatorRouterTests: XCTestCase {
         XCTAssertTrue(sut.allHTTPHeaderFields?.contains(where: {
             $0.key == "IsInboxCreation" && $0.value == "True"
         }) ?? false)
-        XCTAssertTrue(sut.url?.absoluteString == "https://ssi-mediator-20.esatus.com/basic-routing/v1/create-inbox")
+
+        XCTAssertTrue(sut.url?.relativePath == "/basic-routing/v1/create-inbox")
         XCTAssertTrue(sut.httpMethod == "POST")
 
         let expectedJson = try! CreateInboxMessage(data: sut.httpBody!).jsonString()
@@ -26,7 +27,7 @@ final class MediatorRouterTests: XCTestCase {
         XCTAssertTrue(sut.allHTTPHeaderFields?.contains(where: {
             $0.key == "IsAddRouting" && $0.value == "True"
         }) ?? false)
-        XCTAssertTrue(sut.url?.absoluteString == "https://ssi-mediator-20.esatus.com/basic-routing/v1/add-route")
+        XCTAssertTrue(sut.url?.relativePath == "/basic-routing/v1/add-route")
         XCTAssertTrue(sut.httpMethod == "POST")
 
         let expectedJson = try! AddRouteMessage(data: sut.httpBody!).jsonString()
@@ -41,7 +42,7 @@ final class MediatorRouterTests: XCTestCase {
         XCTAssertTrue(sut.allHTTPHeaderFields?.contains(where: {
             $0.key == "IsGetInboxItems" && $0.value == "True"
         }) ?? false)
-        XCTAssertTrue(sut.url?.absoluteString == "https://ssi-mediator-20.esatus.com/basic-routing/v1/get-inbox-items")
+        XCTAssertTrue(sut.url?.relativePath == "/basic-routing/v1/get-inbox-items")
         XCTAssertTrue(sut.httpMethod == "POST")
 
         let expectedJson = try! GetInboxItemsMessage(data: sut.httpBody!).jsonString()
@@ -57,7 +58,7 @@ final class MediatorRouterTests: XCTestCase {
         XCTAssertTrue(sut.allHTTPHeaderFields?.contains(where: {
             $0.key == "IsDeleteInboxItems" && $0.value == "True"
         }) ?? false)
-        XCTAssertTrue(sut.url?.absoluteString == "https://ssi-mediator-20.esatus.com/basic-routing/v1/delete-inbox-items")
+        XCTAssertTrue(sut.url?.relativePath == "/basic-routing/v1/delete-inbox-items")
         XCTAssertTrue(sut.httpMethod == "POST")
 
         let expectedJson = try! DeleteInboxItemsMessage(data: sut.httpBody!).jsonString()
@@ -74,7 +75,7 @@ final class MediatorRouterTests: XCTestCase {
         XCTAssertTrue(sut.allHTTPHeaderFields?.contains(where: {
             $0.key == "IsDeviceRegistration" && $0.value == "True"
         }) ?? false)
-        XCTAssertTrue(sut.url?.absoluteString == "https://ssi-mediator-20.esatus.com/basic-routing/v1/add-device-info")
+        XCTAssertTrue(sut.url?.relativePath == "/basic-routing/v1/add-device-info")
         XCTAssertTrue(sut.httpMethod == "POST")
 
         let expectedJson = try! AddDeviceInfoMessage(data: sut.httpBody!).jsonString()
