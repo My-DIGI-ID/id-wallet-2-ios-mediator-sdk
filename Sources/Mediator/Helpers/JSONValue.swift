@@ -1,31 +1,31 @@
-/*
- * Copyright 2021 Bundesrepublik Deutschland
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- */
+//
+// Copyright 2022 Bundesrepublik Deutschland
+//
+// Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+// the License. You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+// an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+// specific language governing permissions and limitations under the License.
+//
 
 // Inspired by https://gist.github.com/klundberg/419de78d1b2f7a46c11b40b220ec5cd9
 
 import Foundation
 
 public enum JSONValue: Codable, Equatable {
-    struct JSONValueDecodingError: Error {
-        let message: String
-    }
-
     case boolean(Bool)
     case int(Int)
     case double(Double)
     case string(String)
     case array([JSONValue?])
     case object([String: JSONValue?])
+    
+    struct JSONValueDecodingError: Error {
+        let message: String
+    }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()

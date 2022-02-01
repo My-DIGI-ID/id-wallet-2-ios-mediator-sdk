@@ -1,23 +1,20 @@
-/*
- * Copyright 2021 Bundesrepublik Deutschland
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- */
+//
+// Copyright 2022 Bundesrepublik Deutschland
+//
+// Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+// the License. You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
+// an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
+// specific language governing permissions and limitations under the License.
+//
 
 import DeviceCheck
 import Foundation
 
 private enum Constants {
-    static let timeoutInterval: Double = 20
-    static let deviceVendor = "iOS"
-
     enum HttpHeaderFields {
         static let createInbox = "IsInboxCreation"
         static let addRoute = "IsAddRouting"
@@ -38,6 +35,9 @@ private enum Constants {
         static let deleteInboxItems = "https://didcomm.org/basic-routing/1.0/delete-inbox-items"
         static let addDeviceInfo = "https://didcomm.org/basic-routing/1.0/add-device-info"
     }
+    
+    static let timeoutInterval: Double = 20
+    static let deviceVendor = "iOS"
 }
 
 enum MediatorRouter: Endpoint {
@@ -119,20 +119,25 @@ enum MediatorRouter: Endpoint {
         case .discover:
             break
         case .createInbox:
-            request.addValue(Constants.HttpHeaderFields.Values.True,
-                             forHTTPHeaderField: Constants.HttpHeaderFields.createInbox)
+            request.addValue(
+                Constants.HttpHeaderFields.Values.True,
+                forHTTPHeaderField: Constants.HttpHeaderFields.createInbox)
         case .addRoute:
-            request.addValue(Constants.HttpHeaderFields.Values.True,
-                             forHTTPHeaderField: Constants.HttpHeaderFields.addRoute)
+            request.addValue(
+                Constants.HttpHeaderFields.Values.True,
+                forHTTPHeaderField: Constants.HttpHeaderFields.addRoute)
         case .getInboxItems:
-            request.addValue(Constants.HttpHeaderFields.Values.True,
-                             forHTTPHeaderField: Constants.HttpHeaderFields.getInboxItems)
+            request.addValue(
+                Constants.HttpHeaderFields.Values.True,
+                forHTTPHeaderField: Constants.HttpHeaderFields.getInboxItems)
         case .deleteInboxItems:
-            request.addValue(Constants.HttpHeaderFields.Values.True,
-                             forHTTPHeaderField: Constants.HttpHeaderFields.deleteInboxItems)
+            request.addValue(
+                Constants.HttpHeaderFields.Values.True,
+                forHTTPHeaderField: Constants.HttpHeaderFields.deleteInboxItems)
         case .addDeviceInfo:
-            request.addValue(Constants.HttpHeaderFields.Values.True,
-                             forHTTPHeaderField: Constants.HttpHeaderFields.addDeviceInfo)
+            request.addValue(
+                Constants.HttpHeaderFields.Values.True,
+                forHTTPHeaderField: Constants.HttpHeaderFields.addDeviceInfo)
         }
         encodeHttpBody(request: &request)
         return request
@@ -143,42 +148,47 @@ enum MediatorRouter: Endpoint {
         case .discover:
             break
         case let .createInbox(id, metadata):
-            guard let data = try? CreateInboxMessage(id: id,
-                                                     type: messageType,
-                                                     metadata: metadata).jsonData()
+            guard let data = try? CreateInboxMessage(
+                id: id,
+                type: messageType,
+                metadata: metadata).jsonData()
             else {
                 return
             }
             request.httpBody = data
         case let .addRoute(id, destination):
-            guard let data = try? AddRouteMessage(id: id,
-                                                  type: messageType,
-                                                  routeDestination: destination).jsonData()
+            guard let data = try? AddRouteMessage(
+                id: id,
+                type: messageType,
+                routeDestination: destination).jsonData()
             else {
                 return
             }
             request.httpBody = data
         case let .getInboxItems(id):
-            guard let data = try? GetInboxItemsMessage(id: id,
-                                                       type: messageType).jsonData()
+            guard let data = try? GetInboxItemsMessage(
+                id: id,
+                type: messageType).jsonData()
             else {
                 return
             }
             request.httpBody = data
         case let .deleteInboxItems(id, inboxItemIds):
-            guard let data = try? DeleteInboxItemsMessage(id: id,
-                                                          type: messageType,
-                                                          inboxItemIds: inboxItemIds).jsonData()
+            guard let data = try? DeleteInboxItemsMessage(
+                id: id,
+                type: messageType,
+                inboxItemIds: inboxItemIds).jsonData()
             else {
                 return
             }
             request.httpBody = data
         case let .addDeviceInfo(id, deviceId, deviceMetadata):
-            guard let data = try? AddDeviceInfoMessage(id: id,
-                                                       type: messageType,
-                                                       deviceId: deviceId,
-                                                       deviceVendor: Constants.deviceVendor,
-                                                       deviceMetadata: deviceMetadata).jsonData()
+            guard let data = try? AddDeviceInfoMessage(
+                id: id,
+                type: messageType,
+                deviceId: deviceId,
+                deviceVendor: Constants.deviceVendor,
+                deviceMetadata: deviceMetadata).jsonData()
             else {
                 return
             }
