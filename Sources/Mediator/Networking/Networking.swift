@@ -14,13 +14,8 @@
 import Foundation
 
 final class Networking {
-
-    enum Version: String {
-        case v1
-    }
-    
     static var hostURL: URL = .init(string: "https://mediator.dev.essid-demo.com")!
-
+    
     static var sessionConfiguration: URLSessionConfiguration = {
         let configuration = URLSessionConfiguration.default
         configuration.httpAdditionalHeaders = [

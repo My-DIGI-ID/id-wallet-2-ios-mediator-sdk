@@ -12,23 +12,32 @@
 //
 
 import Foundation
+import Aries
+
+private enum Constants {
+    static let messageType: String = "did:sov:BzCbsNYhMrjHiqZDTUASHg;spec/basic-routing/1.0/create-inbox"
+}
 
 // MARK: - CreateInboxMessage
 
-public struct CreateInboxMessage: Codable {
+public struct CreateInboxMessage: Message {
+
     enum CodingKeys: String, CodingKey {
         case id = "@id"
         case type = "@type"
         case metadata
+        case transport = "~transport"
     }
-    
+
     public let id: String
     public let type: String
     public let metadata: Metadata
+    /// Decorator for the response mode
+    public var transport: TransportDecorator?
 
-    public init(id: String, type: String, metadata: Metadata) {
+    public init(id: String = UUID().uuidString, metadata: Metadata) {
         self.id = id
-        self.type = type
+        self.type = Constants.messageType
         self.metadata = metadata
     }
 }

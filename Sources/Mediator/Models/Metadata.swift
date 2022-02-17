@@ -10,22 +10,24 @@
 // an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
 // specific language governing permissions and limitations under the License.
 //
-
 import Foundation
 
 // MARK: - Metadata
 
 public struct Metadata: Codable {
+
     enum CodingKeys: String, CodingKey {
         case mobileSecret = "Mobile-Secret"
         case deviceValidation = "Device-Validation"
+        case deviceVendor = "Device-Vendor"
     }
-    
-    public let mobileSecret, deviceValidation: String
+
+    public let mobileSecret, deviceValidation, deviceVendor: String
 
     public init(mobileSecret: String, deviceValidation: String) {
         self.mobileSecret = mobileSecret
         self.deviceValidation = deviceValidation
+        self.deviceVendor = "iOS"
     }
 }
 

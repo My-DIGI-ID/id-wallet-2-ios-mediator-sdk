@@ -12,9 +12,27 @@
 //
 
 import Foundation
+import Aries
+
+private enum Constants {
+    enum Tags {
+        static let connectionId = "MediatorConnectionId"
+        static let mediatorInboxId = "MediatorInboxId"
+        static let mediatorInboxKey = "MediatorInboxKey"
+    }
+
+    enum HttpHeaderFields {
+        static let createInbox = ["IsInboxCreation": "True"]
+        static let addRoute = ["IsAddRouting": "True"]
+        static let getInboxItems = ["IsGetInboxItems": "True"]
+        static let deleteInboxItems = ["IsDeleteInboxItems": "True"]
+        static let addDeviceInfo = ["IsDeviceRegistration": "True"]
+    }
+}
 
 public protocol MediatorProtocol {
-    func createInbox(id: String, metadata: Metadata) async throws -> CreateInboxResponseMessage
+    func connect() async throws
+    func createInbox(with validation: String) async throws -> CreateInboxResponseMessage
     func addRoute(id: String, destination: String) async throws
     func getInboxItems(id: String) async throws -> GetInboxItemsResponseMessage
     func deleteInboxItems(id: String, inboxItemIds: [String]) async throws
@@ -24,11 +42,49 @@ public protocol MediatorProtocol {
 
 public class MediatorService: MediatorProtocol {
     private(set) lazy var networking = Networking()
+    static public var mobileSecret: String = ""
 
-    public init(urlString: String? = nil) {
-        guard let string = urlString,
-        let url = URL(string: string) else { return }
+    public init(urlString: String?) {
+        guard
+            let string = urlString,
+            let url = URL(string: string) else { return }
         Networking.hostURL = url
+    }
+
+    public func connect() async throws {
+        try await Aries.agent.run {
+            let configuration = try await discover()
+            let pair = try await Aries.connection
+                .createRequest(for: configuration.invitation, with: $0)
+
+            let record = pair.1
+            var request = pair.0
+            request.transport = TransportDecorator(mode: .all)
+
+            let message = MessageRequest(
+                message: request,
+                recipientKeys: configuration.invitation.recipientKeys,
+                senderKey: record.myVerkey,
+                endpoint: configuration.invitation.endpoint
+            )
+
+            let response: ConnectionResponseMessage = try await Aries.message
+                .sendReceive(message, with: $0.wallet)
+                .message
+
+            let connectionID = try await Aries.connection.processResponse(response, with: record, $0)
+
+            // Creates a provisioning record if it doesn't exist
+            var provisioningRecord = try await Aries.provisioning.getRecord(with: $0)
+            provisioningRecord.tags[Constants.Tags.connectionId] = connectionID
+            provisioningRecord.endpoint = Endpoint(
+                uri: configuration.serviceEndpoint,
+                did: nil,
+                verkeys: [configuration.routingKey]
+            )
+            
+            try await Aries.record.update(provisioningRecord, in: $0.wallet)
+        }
     }
 
     /// Creates an Mediator Inbox.
@@ -43,31 +99,133 @@ public class MediatorService: MediatorProtocol {
     ///   - id: An identifier
     ///   - metadata: the metadata description
     /// - Returns: ``CreateInboxResponseMessage``
-    public func createInbox(id: String, metadata: Metadata) async throws -> CreateInboxResponseMessage {
-        let request = MediatorRouter.createInbox(id: id, metadata: metadata).urlRequest()
-        let (data, _) = try await networking.session.data(for: request)
-        return try CreateInboxResponseMessage(data: data)
+    public func createInbox(with validation: String) async throws -> CreateInboxResponseMessage {
+        try await Aries.agent.run {
+            let metaData = Metadata(mobileSecret: MediatorService.mobileSecret, deviceValidation: validation)
+            var createInboxMessage = CreateInboxMessage(metadata: metaData)
+            createInboxMessage.transport = .init(mode: .all)
+
+            var provisioningRecord = try await Aries.provisioning.getRecord(with: $0)
+            guard let connectionID = provisioningRecord.tags[Constants.Tags.connectionId] else {
+                throw MediatorError.noConnection
+            }
+            let connection = try await Aries.record.get(ConnectionRecord.self, for: connectionID, from: $0.wallet)
+
+            guard let service = connection.theirDocument().services?.first else {
+                throw MediatorError.noService
+            }
+            let request = MessageRequest(
+                message: createInboxMessage,
+                recipientKeys:
+                    service.recipientKeys ?? [],
+                senderKey: connection.myVerkey,
+                headers: Constants.HttpHeaderFields.createInbox,
+                endpoint: service.endpoint)
+
+            let response: CreateInboxResponseMessage = try await Aries.message.sendReceive(request, with: $0.wallet).message
+            provisioningRecord.tags[Constants.Tags.mediatorInboxId] = response.inboxId
+            provisioningRecord.tags[Constants.Tags.mediatorInboxKey] = response.inboxKey
+            try await Aries.record.update(provisioningRecord, in: $0.wallet)
+
+            return response
+        }
     }
 
-    public func addRoute(id: String, destination: String) async throws {
-        let request = MediatorRouter.addRoute(id: id, destination: destination).urlRequest()
-        _ = try await networking.session.data(for: request)
+    public func addRoute(id: String = UUID().uuidString, destination: String) async throws {
+        try await Aries.agent.run {
+
+            let provisioningRecord = try await Aries.provisioning.getRecord(with: $0)
+            guard let connectionID = provisioningRecord.tags[Constants.Tags.connectionId] else {
+                throw MediatorError.noConnection
+            }
+            let connection = try await Aries.record.get(ConnectionRecord.self, for: connectionID, from: $0.wallet)
+
+            guard let service = connection.theirDocument().services?.first else {
+                return
+            }
+            let message = AddRouteMessage(routeDestination: destination)
+            let request = MessageRequest(
+                message: message,
+                recipientKeys: service.recipientKeys ?? [],
+                senderKey: connection.myVerkey,
+                headers: Constants.HttpHeaderFields.addRoute,
+                endpoint: service.endpoint)
+
+            try await Aries.message.send(request, with: $0.wallet)
+        }
     }
 
-    public func getInboxItems(id: String) async throws -> GetInboxItemsResponseMessage {
-        let request = MediatorRouter.getInboxItems(id: id).urlRequest()
-        let (data, _) = try await networking.session.data(for: request)
-        return try GetInboxItemsResponseMessage(data: data)
+    public func getInboxItems(id: String = UUID().uuidString) async throws -> GetInboxItemsResponseMessage {
+        try await Aries.agent.run {
+
+            let provisioningRecord = try await Aries.provisioning.getRecord(with: $0)
+            guard let connectionID = provisioningRecord.tags[Constants.Tags.connectionId] else {
+                throw MediatorError.noConnection
+            }
+            let connection = try await Aries.record.get(ConnectionRecord.self, for: connectionID, from: $0.wallet)
+
+            guard let service = connection.theirDocument().services?.first else {
+                throw MediatorError.noService
+            }
+            let message = GetInboxItemsMessage()
+            let request = MessageRequest(
+                message: message,
+                recipientKeys: service.recipientKeys ?? [],
+                senderKey: connection.myVerkey,
+                headers: Constants.HttpHeaderFields.getInboxItems,
+                endpoint: service.endpoint)
+
+            let response: GetInboxItemsResponseMessage = try await Aries.message.sendReceive(request, with: $0.wallet).message
+            return response
+        }
     }
 
-    public func deleteInboxItems(id: String, inboxItemIds: [String]) async throws {
-        let request = MediatorRouter.deleteInboxItems(id: id, inboxItemIds: inboxItemIds).urlRequest()
-        _ = try await networking.session.data(for: request)
+    public func deleteInboxItems(id: String = UUID().uuidString, inboxItemIds: [String]) async throws {
+        try await Aries.agent.run {
+
+            let provisioningRecord = try await Aries.provisioning.getRecord(with: $0)
+            guard let connectionID = provisioningRecord.tags[Constants.Tags.connectionId] else {
+                throw MediatorError.noConnection
+            }
+            let connection = try await Aries.record.get(ConnectionRecord.self, for: connectionID, from: $0.wallet)
+
+            guard let service = connection.theirDocument().services?.first else {
+                throw MediatorError.noService
+            }
+            let message = DeleteInboxItemsMessage(inboxItemIds: inboxItemIds)
+            let request = MessageRequest(
+                message: message,
+                recipientKeys: service.recipientKeys ?? [],
+                senderKey: connection.myVerkey,
+                headers: Constants.HttpHeaderFields.deleteInboxItems,
+                endpoint: service.endpoint)
+            try await Aries.message.send(request, with: $0.wallet)
+        }
     }
 
-    public func addDeviceInfo(id: String, deviceId: String, deviceMetadata: DeviceMetadata) async throws {
-        let request = MediatorRouter.addDeviceInfo(id: id, deviceId: deviceId, deviceMetadata: deviceMetadata).urlRequest()
-        _ = try await networking.session.data(for: request)
+    public func addDeviceInfo(id: String = UUID().uuidString, deviceId: String, deviceMetadata: DeviceMetadata) async throws {
+        try await Aries.agent.run {
+
+            let provisioningRecord = try await Aries.provisioning.getRecord(with: $0)
+            guard let connectionID = provisioningRecord.tags[Constants.Tags.connectionId] else {
+                throw MediatorError.noConnection
+            }
+            let connection = try await Aries.record.get(ConnectionRecord.self, for: connectionID, from: $0.wallet)
+
+            guard let service = connection.theirDocument().services?.first else {
+                throw MediatorError.noService
+            }
+
+            let message = AddDeviceInfoMessage(id: id, deviceId: deviceId, deviceMetadata: deviceMetadata)
+            let request = MessageRequest(
+                message: message,
+                recipientKeys:
+                    service.recipientKeys ?? [],
+                senderKey: connection.myVerkey,
+                headers: Constants.HttpHeaderFields.addDeviceInfo,
+                endpoint: service.endpoint)
+            try await Aries.message.send(request, with: $0.wallet)
+        }
     }
 
     public func setServiceURL(string: String) throws {

@@ -12,23 +12,30 @@
 //
 
 import Foundation
+import Aries
+
+private enum Constants {
+//    static let messageType: String = "https://didcomm.org/basic-routing/1.0/add-route"
+    static let messageType: String = "did:sov:BzCbsNYhMrjHiqZDTUASHg;spec/basic-routing/1.0/add-route"
+}
 
 // MARK: - AddRouteMessage
 
-public struct AddRouteMessage: Codable {
+public struct AddRouteMessage: Message {
+
     enum CodingKeys: String, CodingKey {
         case id = "@id"
         case type = "@type"
         case routeDestination
     }
-    
+
     public let id: String
     public let type: String
     public let routeDestination: String
 
-    public init(id: String, type: String, routeDestination: String) {
+    public init(id: String = UUID().uuidString, routeDestination: String) {
         self.id = id
-        self.type = type
+        self.type = Constants.messageType
         self.routeDestination = routeDestination
     }
 }

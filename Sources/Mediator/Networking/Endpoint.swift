@@ -10,7 +10,6 @@
 // an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
 // specific language governing permissions and limitations under the License.
 //
-
 import Foundation
 
 private enum Constants {
@@ -21,7 +20,7 @@ enum HttpMethod: String, CaseIterable {
     case GET, HEAD, POST, PUT, PATCH, DELETE, OPTIONS
 }
 
-protocol Endpoint {
+protocol MediatorEndpoint {
     var method: HttpMethod { get }
     var url: URL { get }
     var request: URLRequest { get }
@@ -30,14 +29,15 @@ protocol Endpoint {
     func encodeHttpBody(request: inout URLRequest)
 }
 
-extension Endpoint {
+extension MediatorEndpoint {
+
     var request: URLRequest {
         // swiftlint:disable:next identifier_name
         var _request = URLRequest(url: url)
         _request.httpMethod = method.rawValue
         return _request
     }
-    
+
     func urlRequest(cachePolicy: URLRequest.CachePolicy = .reloadIgnoringLocalAndRemoteCacheData) -> URLRequest {
         var request = URLRequest(url: url, cachePolicy: cachePolicy, timeoutInterval: Constants.timeoutInterval)
         request.httpMethod = method.rawValue

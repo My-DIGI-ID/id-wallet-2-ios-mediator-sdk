@@ -12,13 +12,25 @@
 //
 
 import Foundation
+import Aries
 
 // MARK: - GetInboxItemsResponseMessage
 
-public struct GetInboxItemsResponseMessage: Codable {
+public struct GetInboxItemsResponseMessage: Message {
+
+    enum CodingKeys: String, CodingKey {
+        case id = "@id"
+        case type = "@type"
+        case items = "Items"
+    }
+
+    public let id: String
+    public let type: String
     public let items: [InboxItemMessage]
 
-    public init(items: [InboxItemMessage]) {
+    public init(id: String, type: String, items: [InboxItemMessage]) {
+        self.id = id
+        self.type = type
         self.items = items
     }
 }

@@ -16,10 +16,21 @@ import Foundation
 // MARK: - InboxItemMessage
 
 public struct InboxItemMessage: Codable {
-    public let data: String
-    public let timestamp: TimeInterval
+    enum CodingKeys: String, CodingKey {
+        case id = "@id"
+        case type = "@type"
+        case data = "Data"
+        case timestamp = "Timestamp"
+    }
 
-    public init(data: String, timestamp: TimeInterval) {
+    public let id: String
+    public let type: String?
+    public let data: String
+    public let timestamp: Int
+    
+    public init(id: String, type: String, data: String, timestamp: Int) {
+        self.id = id
+        self.type = type
         self.data = data
         self.timestamp = timestamp
     }

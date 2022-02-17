@@ -17,6 +17,8 @@ import XCTest
 final class KeylistQueryFilterRequestTests: XCTestCase {
     func test_decode() throws {
         let sut = try KeylistQueryFilterRequest(TestData.json)
+
+        // swiftlint:disable:next empty_collection_literal
         XCTAssertTrue(sut.filter == [:])
     }
 

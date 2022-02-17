@@ -18,9 +18,10 @@ final class CreateInboxMessageTests: XCTestCase {
     func test_decode() throws {
         let sut = try CreateInboxMessage(TestData.json)
         XCTAssertTrue(sut.id == "fdc65ce9-5122-4315-8f66-eedba2f4b5d0")
-        XCTAssertTrue(sut.type == "https://didcomm.org/basic-routing/1.0/create-inbox")
+        XCTAssertTrue(sut.type == "did:sov:BzCbsNYhMrjHiqZDTUASHg;spec/basic-routing/1.0/create-inbox")
         XCTAssertTrue(sut.metadata.mobileSecret == "SECRET")
         XCTAssertTrue(sut.metadata.deviceValidation == "DEVICE-VALIDATION-RESULT")
+        XCTAssertTrue(sut.metadata.deviceVendor == "iOS")
     }
 
     func test_decode_should_fail() throws {
@@ -31,7 +32,6 @@ final class CreateInboxMessageTests: XCTestCase {
         let metaData = Metadata(mobileSecret: "SECRET", deviceValidation: "DEVICE-VALIDATION-RESULT")
         let sut = try CreateInboxMessage(
             id: "fdc65ce9-5122-4315-8f66-eedba2f4b5d0",
-            type: "https://didcomm.org/basic-routing/1.0/create-inbox",
             metadata: metaData).jsonString()
         XCTAssertTrue(sut == TestData.json)
     }
@@ -39,23 +39,24 @@ final class CreateInboxMessageTests: XCTestCase {
 
 private enum TestData {
     static let json =
-    """
-    {
-        "@id" : "fdc65ce9-5122-4315-8f66-eedba2f4b5d0",
-        "@type" : "https://didcomm.org/basic-routing/1.0/create-inbox",
-        "metadata" : {
-            "Device-Validation" : "DEVICE-VALIDATION-RESULT",
-            "Mobile-Secret" : "SECRET"
-        }
-    }
-    """
+"""
+{
+  "@id" : "fdc65ce9-5122-4315-8f66-eedba2f4b5d0",
+  "@type" : "did:sov:BzCbsNYhMrjHiqZDTUASHg;spec/basic-routing/1.0/create-inbox",
+  "metadata" : {
+    "Device-Validation" : "DEVICE-VALIDATION-RESULT",
+    "Device-Vendor" : "iOS",
+    "Mobile-Secret" : "SECRET"
+}
+}
+"""
 
     static let jsonMissingType =
-    """
-    {
-        "@id" : "fdc65ce9-5122-4315-8f66-eedba2f4b5d0"
-        "@type" : "https://didcomm.org/basic-routing/1.0/create-inbox",
-        "metadata" : {
+        """
+        {
+          "@id" : "fdc65ce9-5122-4315-8f66-eedba2f4b5d0"
+          "@type" : "did:sov:BzCbsNYhMrjHiqZDTUASHg;spec/basic-routing/1.0/create-inbox",
+          "metadata" : {
             "Device-Validation" : "\u{0}"
         }
     }

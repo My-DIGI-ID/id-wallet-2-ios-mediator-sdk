@@ -15,4 +15,7 @@ import Foundation
 
 enum MediatorError: Error {
     case invalidHostURL
+    case invalidEndpoint
+    case noService
+    case noConnection
 }

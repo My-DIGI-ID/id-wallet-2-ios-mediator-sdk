@@ -12,16 +12,18 @@
 //
 
 import Foundation
+import Aries
 
 // MARK: - KeylistUpdate
 
-struct KeylistUpdate: Codable {
+struct KeylistUpdate: Message {
+
     enum CodingKeys: String, CodingKey {
         case id = "@id"
         case type = "@type"
         case updates
     }
-    
+
     let id: String
     let type: String
     let updates: [KeylistUpdateRule]

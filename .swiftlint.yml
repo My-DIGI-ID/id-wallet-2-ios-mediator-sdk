@@ -1,5 +1,7 @@
 # Note: This section lists rules that are enabled by default.
 # This means: A rule commented out here is actually enabled in this config!
+excluded:
+  - .build/*
 disabled_rules:
 - cyclomatic_complexity
 - file_length
@@ -62,7 +64,7 @@ line_length:
     #ignores_function_declarations: true
     #ignores_comments: true
     #ignores_urls: true
-    
+
 type_contents_order:
   order:
     - case

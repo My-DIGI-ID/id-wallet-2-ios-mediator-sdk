@@ -14,7 +14,9 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(url: "https://github.com/square/Valet", from: "4.1.2")
+        .package(url: "https://github.com/square/Valet", from: "4.1.2"),
+//        .package(name: "Aries", path: "../ios-aries-sdk"),
+        .package(url: "https://eu-de.git.cloud.ibm.com/blockchain-practice-dach/projects/ssi-bundeskanzleramt/id-wallet/ios-aries-sdk", branch: "development")
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
     ],
@@ -23,11 +25,13 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "Mediator",
-            dependencies: ["Valet"]
+            dependencies: ["Valet",
+                           .product(name: "Aries", package: "ios-aries-sdk")]
         ),
         .testTarget(
             name: "MediatorTests",
-            dependencies: ["Mediator"]
+            dependencies: ["Mediator"],
+            resources: [.copy("Resource")]
         )
     ]
 )

@@ -12,21 +12,23 @@
 //
 
 import Foundation
+import Aries
 
 // MARK: - AgentConfiguration
 
 public struct AgentConfiguration: Codable {
+
     enum CodingKeys: String, CodingKey {
         case serviceEndpoint = "ServiceEndpoint"
         case routingKey = "RoutingKey"
         case invitation = "Invitation"
     }
-    
+
     public let serviceEndpoint: String
     public let routingKey: String
-    public let invitation: Invitation
+    public let invitation: ConnectionInvitationMessage
 
-    public init(serviceEndpoint: String, routingKey: String, invitation: Invitation) {
+    public init(serviceEndpoint: String, routingKey: String, invitation: ConnectionInvitationMessage) {
         self.serviceEndpoint = serviceEndpoint
         self.routingKey = routingKey
         self.invitation = invitation

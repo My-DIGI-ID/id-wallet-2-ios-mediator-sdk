@@ -12,26 +12,34 @@
 //
 
 import Foundation
+import Aries
+
+private enum Constants {
+//    static let messageType: String = "https://didcomm.org/basic-routing/1.0/add-device-info"
+    static let messageType: String = "did:sov:BzCbsNYhMrjHiqZDTUASHg;spec/basic-routing/1.0/add-device-info"
+    static let deviceVendor = "iOS"
+}
 
 // MARK: - AddDeviceInfoMessage
 
-public struct AddDeviceInfoMessage: Codable {
+public struct AddDeviceInfoMessage: Message {
+
     enum CodingKeys: String, CodingKey {
         case id = "@id"
         case type = "@type"
         case deviceId, deviceVendor, deviceMetadata
     }
-    
+
     public let id: String
     public let type: String
     public let deviceId, deviceVendor: String
     public let deviceMetadata: DeviceMetadata
 
-    public init(id: String, type: String, deviceId: String, deviceVendor: String, deviceMetadata: DeviceMetadata) {
+    public init(id: String = UUID().uuidString, deviceId: String, deviceMetadata: DeviceMetadata) {
         self.id = id
-        self.type = type
+        self.type = Constants.messageType
         self.deviceId = deviceId
-        self.deviceVendor = deviceVendor
+        self.deviceVendor = Constants.deviceVendor
         self.deviceMetadata = deviceMetadata
     }
 }

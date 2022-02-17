@@ -12,17 +12,19 @@
 //
 
 import Foundation
+import Aries
 
 // MARK: - MediationDeny
 
-struct MediationDeny: Codable {
+struct MediationDeny: Message {
+
     enum CodingKeys: String, CodingKey {
         case id = "@id"
         case type = "@type"
         case mediatorTerms = "mediator_terms"
         case recipientTerms = "recipient_terms"
     }
-    
+
     let id: String
     let type: String
     let mediatorTerms, recipientTerms: [String]

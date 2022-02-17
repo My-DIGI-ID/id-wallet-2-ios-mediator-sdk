@@ -12,23 +12,30 @@
 //
 
 import Foundation
+import Aries
+
+private enum Constants {
+//    static let messageType: String = "https://didcomm.org/basic-routing/1.0/delete-inbox-items"
+    static let messageType: String = "did:sov:BzCbsNYhMrjHiqZDTUASHg;spec/basic-routing/1.0/delete-inbox-items"
+}
 
 // MARK: - DeleteInboxItemsMessage
 
-public struct DeleteInboxItemsMessage: Codable {
+public struct DeleteInboxItemsMessage: Message {
+
     enum CodingKeys: String, CodingKey {
         case id = "@id"
         case type = "@type"
         case inboxItemIds
     }
-    
+
     public let id: String
     public let type: String
     public let inboxItemIds: [String]
 
-    public init(id: String, type: String, inboxItemIds: [String]) {
+    public init(id: String = UUID().uuidString, inboxItemIds: [String]) {
         self.id = id
-        self.type = type
+        self.type = Constants.messageType
         self.inboxItemIds = inboxItemIds
     }
 }

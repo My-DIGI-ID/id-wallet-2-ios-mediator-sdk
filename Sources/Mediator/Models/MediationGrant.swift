@@ -12,17 +12,19 @@
 //
 
 import Foundation
+import Aries
 
 // MARK: - MediationGrant
 
-struct MediationGrant: Codable {
+struct MediationGrant: Message {
+
     enum CodingKeys: String, CodingKey {
         case id = "@id"
         case type = "@type"
         case endpoint
         case routingKeys = "routing_keys"
     }
-    
+
     let id: String
     let type: String
     let endpoint: String

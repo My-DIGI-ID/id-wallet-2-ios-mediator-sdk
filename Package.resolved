@@ -1,0 +1,34 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Aries",
+        "repositoryURL": "https://eu-de.git.cloud.ibm.com/blockchain-practice-dach/projects/ssi-bundeskanzleramt/id-wallet/ios-aries-sdk",
+        "state": {
+          "branch": "feature/BKAWALIOS-215",
+          "revision": "717ff8baaa21303cd532ff02efd04fe54c5625ff",
+          "version": null
+        }
+      },
+      {
+        "package": "Indy",
+        "repositoryURL": "https://eu-de.git.cloud.ibm.com/blockchain-practice-dach/projects/ssi-bundeskanzleramt/id-wallet/ios-indy-sdk",
+        "state": {
+          "branch": "development",
+          "revision": "16b646a6942a206a9dd9e423cfcf4880942c3758",
+          "version": null
+        }
+      },
+      {
+        "package": "Valet",
+        "repositoryURL": "https://github.com/square/Valet",
+        "state": {
+          "branch": null,
+          "revision": "2bf3329055f5d71d42a12801dd69d1d770fafa5e",
+          "version": "4.1.2"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
