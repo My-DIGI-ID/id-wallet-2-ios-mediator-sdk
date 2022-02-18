@@ -5,18 +5,18 @@
         "package": "Aries",
         "repositoryURL": "https://eu-de.git.cloud.ibm.com/blockchain-practice-dach/projects/ssi-bundeskanzleramt/id-wallet/ios-aries-sdk",
         "state": {
-          "branch": "feature/BKAWALIOS-215",
-          "revision": "717ff8baaa21303cd532ff02efd04fe54c5625ff",
-          "version": null
+          "branch": null,
+          "revision": "92252025c05ea5fd6ffabe7e3b72ead24906774b",
+          "version": "0.1.0"
         }
       },
       {
         "package": "Indy",
         "repositoryURL": "https://eu-de.git.cloud.ibm.com/blockchain-practice-dach/projects/ssi-bundeskanzleramt/id-wallet/ios-indy-sdk",
         "state": {
-          "branch": "development",
+          "branch": null,
           "revision": "16b646a6942a206a9dd9e423cfcf4880942c3758",
-          "version": null
+          "version": "0.1.0"
         }
       },
       {
