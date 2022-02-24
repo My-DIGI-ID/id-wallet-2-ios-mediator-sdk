@@ -26,12 +26,14 @@ final class DeleteInboxItemsMessageTests: XCTestCase {
     }
 
     func test_encode() throws {
-        let sut = try DeleteInboxItemsMessage(id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-                                              inboxItemIds: ["1", "2", "3"]).jsonString()
+        let sut = try DeleteInboxItemsMessage(
+            id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+            inboxItemIds: ["1", "2", "3"]).jsonString()
         XCTAssertTrue(sut == TestData.json)
     }
 }
 
+// swiftlint:disable indentation_width
 private enum TestData {
     static let json: String =
     """

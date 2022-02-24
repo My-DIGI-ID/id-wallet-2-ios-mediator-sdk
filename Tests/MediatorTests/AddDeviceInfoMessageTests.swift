@@ -37,10 +37,9 @@ final class AddDeviceInfoMessageTests: XCTestCase {
         XCTAssertTrue(sut == TestData.json)
     }
 }
-
+// swiftlint:disable indentation_width
 private enum TestData {
     static let json: String =
-    // swiftlint:disable:next indentation_width
     """
     {
       "@id" : "3fa85f64-5717-4562-b3fc-2c963f66afa6",

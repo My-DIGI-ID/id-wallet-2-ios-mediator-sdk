@@ -30,6 +30,7 @@ final class AddRouteMessageTests: XCTestCase {
     }
 }
 
+// swiftlint:disable indentation_width
 private enum TestData {
     static let json: String =
     """

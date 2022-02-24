@@ -69,6 +69,7 @@ final class MediationListTests: XCTestCase {
     }
 }
 
+// swiftlint:disable indentation_width
 private enum TestData {
     static let json =
     """

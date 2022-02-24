@@ -20,7 +20,7 @@ extension URLSession {
     ///   - delegate: A delegate that receives life cycle and authentication challenge callbacks as the transfer progresses.
     /// - Returns: An asynchronously-delivered tuple that contains the URL contents as a Data instance, and a URLResponse.
     @available(iOS, deprecated: 15.0, message: "This extension is no longer necessary. Use API built into SDK")
-    // swiftlint:enable line_length
+    
     func data(for request: URLRequest, delegate _: URLSessionTaskDelegate? = nil) async throws -> (Data, URLResponse) {
         try await withCheckedThrowingContinuation { continuation in
             let task = self.dataTask(with: request) { data, response, error in

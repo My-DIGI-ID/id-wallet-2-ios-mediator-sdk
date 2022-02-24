@@ -30,7 +30,7 @@ final class CreateInboxResponseMessageTests: XCTestCase {
         XCTAssertTrue(sut == TestData.json)
     }
 }
-
+// swiftlint:disable indentation_width
 private enum TestData {
     static let json: String =
     """
