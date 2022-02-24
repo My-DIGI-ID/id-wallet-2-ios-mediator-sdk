@@ -51,6 +51,8 @@ public class MediatorService: MediatorProtocol {
         Networking.hostURL = url
     }
 
+    /// Creates a connection to the designated Mediator agent
+    /// It first disovers the inivation and creates the corresponding request. After receiving and processing the response message the needed porovisioning record is created and updated
     public func connect() async throws {
         try await Aries.agent.run {
             let configuration = try await discover()
@@ -155,6 +157,9 @@ public class MediatorService: MediatorProtocol {
         }
     }
 
+    /// Get the inbox items from the inbox
+    /// - Parameter id: Inbox identifier
+    /// - Returns: the inbox items
     public func getInboxItems(id: String = UUID().uuidString) async throws -> GetInboxItemsResponseMessage {
         try await Aries.agent.run {
 
@@ -180,6 +185,10 @@ public class MediatorService: MediatorProtocol {
         }
     }
 
+    /// Delete inbox items
+    /// - Parameters:
+    ///   - id: Inbox ID
+    ///   - inboxItemIds: Array of message id's to delete
     public func deleteInboxItems(id: String = UUID().uuidString, inboxItemIds: [String]) async throws {
         try await Aries.agent.run {
 
