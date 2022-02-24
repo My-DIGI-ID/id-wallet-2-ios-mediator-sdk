@@ -65,14 +65,14 @@ private enum TestData {
     static let json =
     """
     {
-        "connection_id" : "string",
-        "created_at" : "2021-11-17 15:54:50Z",
-        "recipient_key" : "string",
-        "record_id" : "string",
-        "role" : "string",
-        "state" : "active",
-        "updated_at" : "2021-11-17 15:54:50Z",
-        "wallet_id" : "string"
+      "connection_id" : "string",
+      "created_at" : "2021-11-17 15:54:50Z",
+      "recipient_key" : "string",
+      "record_id" : "string",
+      "role" : "string",
+      "state" : "active",
+      "updated_at" : "2021-11-17 15:54:50Z",
+      "wallet_id" : "string"
     }
     """
 }

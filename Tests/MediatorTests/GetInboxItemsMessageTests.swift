@@ -22,16 +22,20 @@ final class GetInboxItemsMessageTests: XCTestCase {
     }
 
     func test_encode() throws {
-        let sut = try GetInboxItemsMessage(id: "3fa85f64-5717-4562-b3fc-2c963f66afa6").jsonString()
+        let sut = try GetInboxItemsMessage(id: "3fa85f64-5717-4562-b3fc-2c963f66afa6").jsonString()        
         XCTAssertTrue(sut == TestData.json)
     }
 }
 
 private enum TestData {
-    static let json: String = """
+    static let json: String =
+    """
     {
       "@id" : "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      "@type" : "did:sov:BzCbsNYhMrjHiqZDTUASHg;spec/basic-routing/1.0/get-inbox-items"
+      "@type" : "did:sov:BzCbsNYhMrjHiqZDTUASHg;spec/basic-routing/1.0/get-inbox-items",
+      "~transport" : {
+        "return_route" : "all"
+      }
     }
     """
 }

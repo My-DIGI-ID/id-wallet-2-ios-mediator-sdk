@@ -30,7 +30,7 @@ final class KeylistUpdateTests: XCTestCase {
         let sut = try KeylistUpdate(
             id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
             type: "https://didcomm.org/my-family/1.0/my-message-type",
-            updates: [rule]).jsonString()
+            updates: [rule]).jsonString()        
         XCTAssertTrue(sut == TestData.json)
     }
 }
@@ -39,12 +39,14 @@ private enum TestData {
     static let json =
     """
     {
-        "@id" : "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        "@type" : "https://didcomm.org/my-family/1.0/my-message-type",
-        "updates" : [{
-            "action" : "add",
-            "recipient_key" : "H3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV"
-        }]
+      "@id" : "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "@type" : "https://didcomm.org/my-family/1.0/my-message-type",
+      "updates" : [
+        {
+          "action" : "add",
+          "recipient_key" : "H3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV"
+        }
+      ]
     }
     """
 }

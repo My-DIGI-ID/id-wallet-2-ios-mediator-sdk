@@ -62,7 +62,7 @@ func test_decode() throws {
             state: "active",
             createdAt: expectedDate,
             updatedAt: expectedDate).jsonString()
-        XCTAssertTrue(sut == TestData.json)
+        XCTAssertTrue(sut == TestData.json)        
     }
 }
 
@@ -70,22 +70,22 @@ private enum TestData {
     static let json =
     """
     {
-        "connection_id" : "string",
-        "created_at" : "2021-11-17 15:54:50Z",
-        "endpoint" : "string",
-        "mediation_id" : "string",
-        "mediator_terms" : [
-            "string"
-        ],
-            "recipient_terms" : [
-            "string"
-        ],
-        "role" : "string",
-        "routing_keys" : [
-            "H3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV"
-        ],
-        "state" : "active",
-        "updated_at" : "2021-11-17 15:54:50Z"
+      "connection_id" : "string",
+      "created_at" : "2021-11-17 15:54:50Z",
+      "endpoint" : "string",
+      "mediation_id" : "string",
+      "mediator_terms" : [
+        "string"
+      ],
+      "recipient_terms" : [
+        "string"
+      ],
+      "role" : "string",
+      "routing_keys" : [
+        "H3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV"
+      ],
+      "state" : "active",
+      "updated_at" : "2021-11-17 15:54:50Z"
     }
     """
 }

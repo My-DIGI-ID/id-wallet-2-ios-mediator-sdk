@@ -33,7 +33,7 @@ final class MediationDenyTests: XCTestCase {
             type: "https://didcomm.org/my-family/1.0/my-message-type",
             mediatorTerms: ["string"],
             recipientTerms: ["string"]).jsonString()
-        XCTAssertTrue(sut == TestData.json)
+        XCTAssertTrue(sut == TestData.json)        
     }
 }
 
@@ -41,14 +41,14 @@ private enum TestData {
     static let json =
     """
     {
-        "@id" : "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        "@type" : "https://didcomm.org/my-family/1.0/my-message-type",
-        "mediator_terms" : [
+      "@id" : "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "@type" : "https://didcomm.org/my-family/1.0/my-message-type",
+      "mediator_terms" : [
         "string"
-        ],
-        "recipient_terms" : [
+      ],
+      "recipient_terms" : [
         "string"
-        ]
+      ]
     }
     """
 }

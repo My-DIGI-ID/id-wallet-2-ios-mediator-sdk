@@ -24,7 +24,7 @@ final class AdminMediationDenyTests: XCTestCase {
     }
 
     func test_encode() throws {
-        let sut = try AdminMediationDeny(mediatorTerms: ["string"], recipientTerms: ["string"]).jsonString()
+        let sut = try AdminMediationDeny(mediatorTerms: ["string"], recipientTerms: ["string"]).jsonString()        
         XCTAssertTrue(sut == TestData.json)
     }
 }
@@ -33,12 +33,12 @@ private enum TestData {
     static let json: String =
     """
     {
-    "mediator_terms" : [
+      "mediator_terms" : [
         "string"
-    ],
-    "recipient_terms" : [
+      ],
+      "recipient_terms" : [
         "string"
-    ]
+      ]
     }
     """
 }

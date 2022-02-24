@@ -23,7 +23,7 @@ final class PaginateTests: XCTestCase {
 
     func test_encode() throws {
         let sut = try Paginate(limit: 30, offset: 0).jsonString()
-        XCTAssertTrue(sut == TestData.json)
+        XCTAssertTrue(sut == TestData.json)        
     }
 }
 
@@ -31,8 +31,8 @@ private enum TestData {
     static let json =
     """
     {
-        "limit" : 30,
-        "offset" : 0
+      "limit" : 30,
+      "offset" : 0
     }
     """
 }

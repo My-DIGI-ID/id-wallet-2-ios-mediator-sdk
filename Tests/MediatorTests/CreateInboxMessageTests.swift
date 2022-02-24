@@ -47,12 +47,12 @@ private enum TestData {
     "Device-Validation" : "DEVICE-VALIDATION-RESULT",
     "Device-Vendor" : "iOS",
     "Mobile-Secret" : "SECRET"
-}
+  }
 }
 """
 
     static let jsonMissingType =
-        """
+    """
         {
           "@id" : "fdc65ce9-5122-4315-8f66-eedba2f4b5d0"
           "@type" : "did:sov:BzCbsNYhMrjHiqZDTUASHg;spec/basic-routing/1.0/create-inbox",

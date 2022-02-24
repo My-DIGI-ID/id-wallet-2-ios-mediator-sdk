@@ -25,7 +25,7 @@ final class GetInboxItemsResponseMessageTests: XCTestCase {
     func test_encode() throws {
         let sut = try GetInboxItemsResponseMessage(id: "UUID().uuidString", type: "", items: [
             InboxItemMessage(id: "UUID().uuidString", type: "", data: "string", timestamp: 1_639_158_204)
-        ]).jsonString()
+        ]).jsonString()        
         XCTAssertTrue(sut == TestData.json)
     }
 }
@@ -34,14 +34,16 @@ private enum TestData {
     static let json: String =
     """
     {
-      "id" : "UUID().uuidString",
-      "items" : [
+      "@id" : "UUID().uuidString",
+      "@type" : "",
+      "Items" : [
         {
-          "data" : "string",
-          "timestamp" : 1639158204
+          "@id" : "UUID().uuidString",
+          "@type" : "",
+          "Data" : "string",
+          "Timestamp" : 1639158204
         }
-      ],
-      "type" : ""
+      ]
     }
     """
 }

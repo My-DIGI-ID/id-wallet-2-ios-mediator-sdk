@@ -26,7 +26,7 @@ final class KeylistUpdateRuleTests: XCTestCase {
         let sut = try KeylistUpdateRule(
             action: .add,
             recipientKey: "H3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV")
-            .jsonString()
+            .jsonString()        
         XCTAssertTrue(sut == TestData.json)
     }
 }
@@ -35,8 +35,8 @@ private enum TestData {
     static let json =
     """
     {
-        "action" : "add",
-        "recipient_key" : "H3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV"
+      "action" : "add",
+      "recipient_key" : "H3C2AVvLMv6gmMNam3uVAjZpfkcJCwDwnZn6z3wXmqPV"
     }
     """
 }
