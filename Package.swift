@@ -19,8 +19,9 @@ let package = Package(
     targets: [
         .target(
             name: "Mediator",
-            dependencies: ["Valet",
-                           .product(name: "Aries", package: "ios-aries-sdk")]
+            dependencies: ["Valet", .product(
+                name: "Aries",
+                package: "ios-aries-sdk")]
         ),
         .testTarget(
             name: "MediatorTests",
