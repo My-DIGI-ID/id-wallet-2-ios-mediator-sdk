@@ -85,7 +85,7 @@ public class MediatorService: MediatorProtocol {
                 verkeys: [configuration.routingKey]
             )
             
-            try await Aries.record.update(provisioningRecord, in: $0.wallet)
+            try await Aries.record.update(provisioningRecord, with: $0)
         }
     }
 
@@ -111,7 +111,7 @@ public class MediatorService: MediatorProtocol {
             guard let connectionID = provisioningRecord.tags[Constants.Tags.connectionId] else {
                 throw MediatorError.noConnection
             }
-            let connection = try await Aries.record.get(ConnectionRecord.self, for: connectionID, from: $0.wallet)
+            let connection = try await Aries.record.get(ConnectionRecord.self, for: connectionID, with: $0)
 
             guard let service = connection.theirDocument().services?.first else {
                 throw MediatorError.noService
@@ -127,7 +127,7 @@ public class MediatorService: MediatorProtocol {
             let response: CreateInboxResponseMessage = try await Aries.message.sendReceive(request, with: $0.wallet).message
             provisioningRecord.tags[Constants.Tags.mediatorInboxId] = response.inboxId
             provisioningRecord.tags[Constants.Tags.mediatorInboxKey] = response.inboxKey
-            try await Aries.record.update(provisioningRecord, in: $0.wallet)
+            try await Aries.record.update(provisioningRecord, with: $0)
 
             return response
         }
@@ -140,7 +140,7 @@ public class MediatorService: MediatorProtocol {
             guard let connectionID = provisioningRecord.tags[Constants.Tags.connectionId] else {
                 throw MediatorError.noConnection
             }
-            let connection = try await Aries.record.get(ConnectionRecord.self, for: connectionID, from: $0.wallet)
+            let connection = try await Aries.record.get(ConnectionRecord.self, for: connectionID, with: $0)
 
             guard let service = connection.theirDocument().services?.first else {
                 return
@@ -167,7 +167,7 @@ public class MediatorService: MediatorProtocol {
             guard let connectionID = provisioningRecord.tags[Constants.Tags.connectionId] else {
                 throw MediatorError.noConnection
             }
-            let connection = try await Aries.record.get(ConnectionRecord.self, for: connectionID, from: $0.wallet)
+            let connection = try await Aries.record.get(ConnectionRecord.self, for: connectionID, with: $0)
 
             guard let service = connection.theirDocument().services?.first else {
                 throw MediatorError.noService
@@ -196,7 +196,7 @@ public class MediatorService: MediatorProtocol {
             guard let connectionID = provisioningRecord.tags[Constants.Tags.connectionId] else {
                 throw MediatorError.noConnection
             }
-            let connection = try await Aries.record.get(ConnectionRecord.self, for: connectionID, from: $0.wallet)
+            let connection = try await Aries.record.get(ConnectionRecord.self, for: connectionID, with: $0)
 
             guard let service = connection.theirDocument().services?.first else {
                 throw MediatorError.noService
@@ -219,7 +219,7 @@ public class MediatorService: MediatorProtocol {
             guard let connectionID = provisioningRecord.tags[Constants.Tags.connectionId] else {
                 throw MediatorError.noConnection
             }
-            let connection = try await Aries.record.get(ConnectionRecord.self, for: connectionID, from: $0.wallet)
+            let connection = try await Aries.record.get(ConnectionRecord.self, for: connectionID, with: $0)
 
             guard let service = connection.theirDocument().services?.first else {
                 throw MediatorError.noService
