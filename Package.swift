@@ -14,14 +14,14 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/square/Valet", from: "4.1.2"),
-        .package(url: "https://eu-de.git.cloud.ibm.com/blockchain-practice-dach/projects/ssi-bundeskanzleramt/id-wallet/ios-aries-sdk", branch: "development")
+        .package(url: "git@github.com:My-DIGI-ID/id-wallet-2-ios-aries-sdk.git",
+                 branch: "development")
     ],
     targets: [
         .target(
             name: "Mediator",
-            dependencies: ["Valet", .product(
-                name: "Aries",
-                package: "ios-aries-sdk")]
+            dependencies: ["Valet",
+                           .product(name: "Aries", package: "id-wallet-2-ios-aries-sdk")]
         ),
         .testTarget(
             name: "MediatorTests",
