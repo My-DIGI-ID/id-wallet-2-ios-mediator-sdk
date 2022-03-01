@@ -10,7 +10,7 @@ final class MediatorServiceTests: XCTestCase {
     let agentService = DefaultAgentService()
     let mediatorService = MediatorService(urlString: nil)
     override func setUp() async throws {
-        super.setUp()
+        try await super.setUp()
         MediatorService.mobileSecret = "vU70ZrK1b5dyYNPq2T4jYngb6d4IkPYJ"
         
         try await Aries.agent.initialize(with: id, key, genesis)
@@ -20,7 +20,7 @@ final class MediatorServiceTests: XCTestCase {
     override func tearDown() async throws {
         try await Aries.agent.close()
         try await Aries.agent.destroy(with: id, key)
-        super.tearDown()
+        try await super.tearDown()
     }
     
     func test_discover_path() {
@@ -87,7 +87,7 @@ final class MediatorServiceTests: XCTestCase {
                     push: "push",
                     createdAt: Date().timeIntervalSince1970))
         } catch {
-            try await Aries.agent.destroy()
+            try await Aries.agent.destroy(with: id, key)
         }
     }
 }
